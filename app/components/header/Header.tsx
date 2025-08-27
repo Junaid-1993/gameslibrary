@@ -9,12 +9,12 @@ export default function Header() {
   return (
     <>
       {/* Top Bar */}
-      <header className="flex items-center justify-between gap-8 px-3 py-3 md:px-4 md:py-3.5 xl:px-6 2xl:gap-12 2xl:px-12 2xl:py-5">
+      <header className="flex items-center justify-between gap-6 px-3 py-3 md:px-4 md:py-3.5 xl:px-6 2xl:gap-12 2xl:px-12 2xl:py-5">
         <MobileSidebarMenu />
         <Brand />
 
         {/* Desktop content */}
-        <div className="hidden w-full lg:flex-row lg:items-center lg:gap-6 xl:flex xl:justify-between">
+        <div className="hidden w-full lg:flex-row lg:items-center lg:gap-5 xl:flex xl:justify-between">
           <DesktopHeaderSearch />
           <HeaderNavLinks />
           <AuthButtons />

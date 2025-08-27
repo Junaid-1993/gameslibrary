@@ -16,6 +16,8 @@
   --color-primary-300: var(--primary-300);
   --color-primary-400: var(--primary-400);
   --color-primary-500: var(--primary-500);
+  --color-primary-600: var(--primary-600);
+  --color-primary-700: var(--primary-700);
   --color-primary-800: var(--primary-800);
   --color-primary-900: var(--primary-900);
   --color-accent-400: var(--accent-400);
@@ -104,6 +106,8 @@
   --primary-300: #87bbff;
   --primary-400: #70aeff;
   --primary-500: #4c9aff;
+  --primary-600: #458ce8;
+  --primary-700: #366db5;
   --primary-800: #2a558c;
   --primary-900: #20416b;
   --accent-400: #fdb541;

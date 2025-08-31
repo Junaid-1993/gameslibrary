@@ -20,7 +20,11 @@
   --color-primary-700: var(--primary-700);
   --color-primary-800: var(--primary-800);
   --color-primary-900: var(--primary-900);
+  --color-accent-200: var(--accent-200);
+  --color-accent-300: var(--accent-300);
   --color-accent-400: var(--accent-400);
+  --color-accent-500: var(--accent-500);
+  --color-surface-400: var(--surface-400);
   --color-surface-500: var(--surface-500);
   --color-border-300: var(--border-300);
   --color-border-400: var(--border-400);
@@ -110,7 +114,11 @@
   --primary-700: #366db5;
   --primary-800: #2a558c;
   --primary-900: #20416b;
+  --accent-200: #fed592;
+  --accent-300: #fdc160;
   --accent-400: #fdb541;
+  --accent-500: #fca311;
+  --surface-400: #48494e;
   --surface-500: #1a1b22;
   --border-300: #707076;
   --border-400: #55555b;

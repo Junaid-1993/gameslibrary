@@ -8,7 +8,11 @@ const chakraPetch = Chakra_Petch({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-export default function Brand() {
+type BrandProps = {
+  isFooter: boolean;
+};
+
+export default function Brand({ isFooter = false }: BrandProps) {
   return (
     <div className="flex shrink-0 items-center gap-2">
       <Link href="/">
@@ -18,11 +22,11 @@ export default function Brand() {
           priority={true}
           width={32}
           height={32}
-          className="sm:w-[40px] 2xl:w-[50px]"
+          className={`${isFooter ? "" : "sm:w-[40px]"} ${isFooter ? "2xl:w-10" : "2xl:w-[50px]"}`}
         />
       </Link>
       <span
-        className={`${chakraPetch.className} text-primary-400 text-xl font-medium 2xl:text-[22px]`}
+        className={`${chakraPetch.className} text-primary-400 ${isFooter ? "text-lg" : "text-xl"} font-medium ${isFooter ? "2xl:text-xl" : "2xl:text-[22px]"} `}
       >
         GamesLibrary
       </span>

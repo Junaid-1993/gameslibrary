@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 import Header from "./components/header/Header";
+import Footer from "./components/footer/Footer";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk-sans-serif",
@@ -28,7 +29,8 @@ export default function RootLayout({
     <html lang="en" className={`dark ${spaceGrotesk.variable} ${inter.variable}`}>
       <body className={`font-inter antialiased`}>
         <Header />
-        {children}
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );

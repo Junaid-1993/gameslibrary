@@ -25,7 +25,7 @@ export default function MarqueeCovers() {
               alt={cover.alt}
               width={100}
               height={120}
-              className="h-[150px] w-[110px] rounded-sm object-cover 2xl:h-[200] 2xl:w-[150]"
+              className="h-[150px] w-[110px] rounded-sm object-cover 2xl:h-[215] 2xl:w-[150]"
             />
           </div>
         ))}

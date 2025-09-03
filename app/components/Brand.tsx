@@ -8,9 +8,9 @@ const chakraPetch = Chakra_Petch({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-type BrandProps = {
-  isFooter: boolean;
-};
+interface BrandProps {
+  isFooter?: boolean;
+}
 
 export default function Brand({ isFooter = false }: BrandProps) {
   return (

@@ -1,10 +1,10 @@
 import Image from "next/image";
 
-type FeatureProps = {
+interface FeatureProps {
   icon: { src: string; alt: string };
   title: string;
   description: string;
-};
+}
 
 export default function Feature({ icon, title, description }: FeatureProps) {
   return (

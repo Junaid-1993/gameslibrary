@@ -7,14 +7,14 @@ import SearchGameCard from "./SearchGameCard";
 import SearchGameCardSkeleton from "./Skeletons/SearchGameCardSkeleton";
 import ServerBoundary from "./ServerBoundary";
 
-type SearchWithResultsProps = {
+interface SearchWithResultsProps {
   isLoading: boolean;
   results: Game[];
   showModal: boolean;
   focusedIndex: number;
   containerRef: React.RefObject<HTMLDivElement | null>;
   onClose: (suppress: boolean) => void;
-};
+}
 
 export default function SearchWithResults({
   isLoading,

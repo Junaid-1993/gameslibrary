@@ -28,7 +28,7 @@ export default function Footer() {
   ];
   return (
     <footer className="border-border-400 dark:bg-surface-500 text-muted-foreground mt-15 border-t 2xl:mt-20">
-      <div className="mx-auto w-full max-w-[1600px] px-6 py-8 md:mt-3 lg:px-8 lg:py-8 xl:py-10">
+      <div className="mx-auto w-full max-w-[1600px] px-6 py-8 md:mt-3 lg:px-8 lg:py-8 xl:py-10 2xl:pb-8">
         <div className="grid gap-9 md:grid-cols-[2fr_1fr_1fr_1fr] md:gap-6 lg:gap-12 2xl:grid-cols-[3fr_1fr_1fr_1fr]">
           {/* Brand & Description */}
           <div className="md: flex flex-col gap-4 xl:max-w-[390px]">

@@ -1,10 +1,10 @@
 import clsx from "clsx";
 
-type FeatureExplainProps = {
+interface FeatureExplainProps {
   title: string;
   description: string;
   index: number;
-};
+}
 
 export default function FeatureExplain({ title, description, index }: FeatureExplainProps) {
   const isEven = (index + 1) % 2 === 0;

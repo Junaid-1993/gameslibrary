@@ -9,7 +9,7 @@ const covers = [
   { src: "/covers/returnal.jpg", alt: "Returnal game cover" },
   { src: "/covers/the-last-of-us.jpg", alt: "The last of us game cover" }, // Center cover
   { src: "/covers/elden-ring.jpg", alt: "Elden ring game cover" },
-  { src: "/covers/hogwarts.jpg", alt: "Hogwarts game cover" },
+  { src: "/covers/hogwarts-legacy.jpg", alt: "Hogwarts game cover" },
 ];
 
 // Fan-out target positions (except center card)

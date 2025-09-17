@@ -28,6 +28,8 @@
   --color-surface-500: var(--surface-500);
   --color-border-300: var(--border-300);
   --color-border-400: var(--border-400);
+  --color-success-500: var(--success-500);
+  --color-success-800: var(--success-800);
 
   --font-space-grotesk: var(--font-space-grotesk-sans-serif);
   --font-inter: var(--font-inter-sans-serif);
@@ -122,6 +124,8 @@
   --surface-500: #1a1b22;
   --border-300: #707076;
   --border-400: #55555b;
+  --success-500: #22c55e;
+  --success-800: #136c34;
 }
 
 .dark {

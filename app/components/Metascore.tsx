@@ -12,7 +12,7 @@ export default function Metascore({ score }: { score: number }) {
   return (
     <span
       style={{ color: `rgb(${scoreColor})`, backgroundColor: `rgb(${scoreColor}, 20%)` }}
-      className="line-he rounded-md p-2 text-lg leading-none font-semibold"
+      className="rounded-sm p-1.5 leading-none font-semibold md:rounded-md md:p-2 md:text-lg"
     >
       {score}
     </span>

@@ -1,10 +1,34 @@
-export default function TopPickBadge({ className }: { className?: string }) {
+import { cn } from "@/lib/utils";
+
+export default function TopPickBadge({
+  classes,
+  size = 22,
+  fullBadge,
+}: {
+  classes?: {
+    container?: string;
+    icon?: string;
+  };
+  fullBadge?: boolean;
+  size?: number;
+}) {
   return (
     <div
-      className={`bg-primary-900 flex h-8 w-8 items-center justify-center rounded-full ${className}`}
+      className={cn(
+        `bg-primary-900 flex h-8 w-8 items-center justify-center rounded-full ${fullBadge && "h-7 w-auto gap-1 px-2 md:h-[32px] md:px-4"}`,
+        classes?.container ?? ""
+      )}
     >
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 36">
-        <g fill="none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={size}
+        height={size}
+        viewBox="0 0 32 36"
+        className={classes?.icon ?? ""}
+        role="img"
+        aria-label="Top Pick badge"
+      >
+        <g>
           <path
             fill="#00a6ed"
             fillRule="evenodd"
@@ -30,6 +54,7 @@ export default function TopPickBadge({ className }: { className?: string }) {
           />
         </g>
       </svg>
+      {fullBadge && <span className="text-[12px] md:text-sm">Top Pick</span>}
     </div>
   );
 }

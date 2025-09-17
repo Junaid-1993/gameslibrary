@@ -1,14 +1,29 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
-export default function LinkWithArrow({ href }: { href: string }) {
+export default function LinkWithArrow({
+  href,
+  title,
+  className,
+  fullWidth = false,
+}: {
+  href: string;
+  title: string;
+  className?: string;
+  fullWidth?: boolean;
+}) {
   return (
-    <Link href={href} className="w-full">
+    <Link href={href} className={`${fullWidth ? "w-full" : "w-fit"}`}>
       <Button
         variant="outline"
-        className="group text-accent-400 dark:border-accent-400 hover:text-accent-400 h-10 w-full cursor-pointer dark:bg-transparent dark:hover:bg-transparent"
+        aria-label={`${title} link`}
+        className={cn(
+          "group text-accent-400 dark:border-accent-400 hover:text-accent-400 h-10 w-full cursor-pointer dark:bg-transparent dark:hover:bg-transparent",
+          className
+        )}
       >
-        View Details
+        {title}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"

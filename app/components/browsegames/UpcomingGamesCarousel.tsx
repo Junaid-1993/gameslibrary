@@ -1,10 +1,10 @@
 "use client";
 
-import useEmblaCarousel from "embla-carousel-react";
-import { useCallback, useEffect, useState } from "react";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
-import WishlistButton from "../WishlistButton";
+import useEmblaCarousel from "embla-carousel-react";
+import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
+import AddToWishlistButton from "../AddToWishlistButton";
 
 type Game = {
   id: number;
@@ -76,8 +76,6 @@ export default function UpcomingGamesCarousel() {
     align: "start",
   });
 
-  console.log("Rendered!");
-
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [snapCount, setSnapCount] = useState(0);
 
@@ -140,7 +138,7 @@ export default function UpcomingGamesCarousel() {
                   </h4>
                   <span className="text-xs sm:text-sm">{game.releaseDate}</span>
                   <div className="mt-4 flex w-full justify-end 2xl:mt-2">
-                    <WishlistButton />
+                    <AddToWishlistButton added={false} />
                   </div>
                 </div>
               </div>

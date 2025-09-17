@@ -31,7 +31,7 @@ export default function SelectInput({
 
       <Select value={values?.[id] || ""} onValueChange={(value) => onSelect?.(id, value)}>
         <SelectTrigger
-          className="border-border-400 dark:bg-surface-500 w-full px-4 py-3 md:w-[250px] md:text-[0.938rem]"
+          className="border-border-400 dark:bg-surface-500 w-full px-4 py-3 data-[size=default]:h-11 md:w-[250px] md:text-[0.938rem]"
           id={id}
           name={id}
         >

@@ -33,7 +33,7 @@ const SearchGameCard = forwardRef<HTMLDivElement, SearchGameCardProps>(
               alt={`${game.title} game cover.`}
               className="h-[165px] rounded-lg object-cover"
             />
-            {game.topPick && <TopPickBadge className="absolute -top-3 -left-3" />}
+            {game.topPick && <TopPickBadge classes={{ container: "absolute -top-3 -left-3" }} />}
           </div>
           <div className="flex flex-col gap-1">
             <h1 className="font-space-grotesk mm:line-clamp-2 line-clamp-1 text-lg xl:text-xl">
@@ -53,7 +53,7 @@ const SearchGameCard = forwardRef<HTMLDivElement, SearchGameCardProps>(
           </div>
         </div>
         <div className="flex items-center justify-between gap-4 xl:flex-col-reverse xl:items-end">
-          <LinkWithArrow href={game.link} />
+          <LinkWithArrow href={game.link} title="View Details" fullWidth />
           {game.added && <AddedBadge className="mm:flex hidden" />}
         </div>
       </article>

@@ -1,22 +1,30 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
-import MorphIcon from "./MorphIcon";
 
-export default function BookmarkButton({ bookmarked }: { bookmarked: boolean }) {
-  const [active, setActive] = useState(bookmarked);
+interface BookmarkButtonProps {
+  className?: string;
+  onBookmark?: (isBookmarked: boolean) => void;
+  initialState: boolean;
+}
 
-  const iconPaths = {
-    morphPlus:
-      "M12.75 6C12.9489 6 13.1397 6.07902 13.2803 6.21967C13.421 6.36032 13.5 6.55109 13.5 6.75V9H15.75C15.9489 9 16.1397 9.07902 16.2803 9.21967C16.421 9.36032 16.5 9.55109 16.5 9.75C16.5 9.94891 16.421 10.1397 16.2803 10.2803C16.1397 10.421 15.9489 10.5 15.75 10.5H13.5V12.75C13.5 12.9489 13.421 13.1397 13.2803 13.2803C13.1397 13.421 12.9489 13.5 12.75 13.5C12.5511 13.5 12.3603 13.421 12.2197 13.2803C12.079 13.1397 12 12.9489 12 12.75V10.5H9.75C9.55109 10.5 9.36032 10.421 9.21967 10.2803C9.07902 10.1397 9 9.94891 9 9.75C9 9.55109 9.07902 9.36032 9.21967 9.21967C9.36032 9.07902 9.55109 9 9.75 9H12V6.75C12 6.55109 12.079 6.36032 12.2197 6.21967C12.3603 6.07902 12.5511 6 12.75 6Z",
-    morphCheck:
-      "M17.0319 7.71888C17.1018 7.78854 17.1572 7.87131 17.195 7.96243C17.2328 8.05354 17.2523 8.15122 17.2523 8.24988C17.2523 8.34853 17.2328 8.44621 17.195 8.53733C17.1572 8.62844 17.1018 8.71121 17.0319 8.78088L12.5319 13.2809C12.4623 13.3507 12.3795 13.4061 12.2884 13.4439C12.1973 13.4818 12.0996 13.5012 12.0009 13.5012C11.9023 13.5012 11.8046 13.4818 11.7135 13.4439C11.6224 13.4061 11.5396 13.3507 11.4699 13.2809L9.21995 11.0309C9.15022 10.9611 9.0949 10.8784 9.05716 10.7873C9.01942 10.6961 9 10.5985 9 10.4999C9 10.4013 9.01942 10.3036 9.05716 10.2125C9.0949 10.1214 9.15022 10.0386 9.21995 9.96888C9.28968 9.89914 9.37246 9.84383 9.46357 9.80609C9.55468 9.76835 9.65233 9.74893 9.75095 9.74893C9.84956 9.74893 9.94721 9.76835 10.0383 9.80609C10.1294 9.84383 10.2122 9.89914 10.2819 9.96888L12.0009 11.6894L15.9699 7.71888C16.0396 7.64903 16.1224 7.59362 16.2135 7.55581C16.3046 7.518 16.4023 7.49854 16.5009 7.49854C16.5996 7.49854 16.6973 7.518 16.7884 7.55581C16.8795 7.59362 16.9623 7.64903 17.0319 7.71888Z",
-  };
+export default function BookmarkButton({
+  className,
+  onBookmark,
+  initialState = false,
+}: BookmarkButtonProps) {
+  const [isBookmarked, setIsBookmarked] = useState(initialState);
 
   const handleClick = () => {
-    setActive(!active);
+    const newBookmarkedState = !isBookmarked;
+    setIsBookmarked(newBookmarkedState);
+    onBookmark?.(newBookmarkedState);
   };
+
+  const plusPath = "M12 5 L12 5 L12 19 L12 19 M5 12 L5 12 L19 12 L19 12";
+  const checkPath = "M5 12 L5 12 L9 16 L9 16 M9 16 L9 16 L19 8 L19 8";
 
   return (
     <div
@@ -26,18 +34,30 @@ export default function BookmarkButton({ bookmarked }: { bookmarked: boolean }) 
       <Button
         onClick={handleClick}
         variant="ghost"
-        className={`size-full cursor-pointer rounded-none rounded-tl-lg transition duration-300 focus-visible:border-3 has-[>svg]:px-0 ${active && "dark:bg-success-800 dark:hover:bg-success-800/70"}`}
-        aria-label="Bookmark this game"
+        className={cn(
+          "size-full cursor-pointer rounded-none rounded-tl-lg pt-1 transition-all duration-300 ease-in-out focus-visible:border-2 focus-visible:border-white has-[>svg]:px-0",
+          { "bg-success-800 dark:hover:bg-success-800/70": isBookmarked },
+          className
+        )}
+        aria-label={isBookmarked ? "Remove bookmark" : "Add bookmark"}
       >
-        <MorphIcon
-          morphPaths={[iconPaths.morphPlus, iconPaths.morphCheck]}
-          viewBox="6.5 5.5 12 12"
-          width={32}
-          height={32}
-          className="size-6 md:size-7 xl:size-8"
-          active={active}
-          aria-label="Bookmark this game"
-        />
+        <svg
+          className="size-6 xl:size-6.5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          strokeWidth={2.5}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d={isBookmarked ? checkPath : plusPath}
+            className="transition-all duration-300 ease-in-out"
+            style={{
+              transitionProperty: "d",
+            }}
+          />
+        </svg>
       </Button>
     </div>
   );

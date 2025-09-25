@@ -5,8 +5,14 @@ import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { useState } from "react";
 
-const FavoriteButton = ({ className, favorite }: { className?: string; favorite: boolean }) => {
-  const [active, setActive] = useState(favorite);
+const FavoriteButton = ({
+  className,
+  initialState,
+}: {
+  className?: string;
+  initialState?: boolean;
+}) => {
+  const [active, setActive] = useState(initialState);
 
   const handleClick = () => {
     setActive((prev) => !prev);
@@ -17,7 +23,7 @@ const FavoriteButton = ({ className, favorite }: { className?: string; favorite:
       variant="outline"
       onClick={handleClick}
       className={cn(
-        "dark:bg-surface-500 dark:border-border-400 h-auto shrink-1 cursor-pointer gap-3 rounded-lg border text-white",
+        "dark:bg-surface-500 dark:border-border-400 h-auto shrink-1 cursor-pointer gap-2.5 rounded-lg border text-white",
         className
       )}
       aria-label="Favorite Button"

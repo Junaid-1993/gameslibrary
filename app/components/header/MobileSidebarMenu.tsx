@@ -3,13 +3,10 @@
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import AuthButtons from "./AuthButtons";
 import Hamburger from "./Hamburger";
-import HeaderNavLinks from "./HeaderNavLinks";
 import MobileHeaderSearch from "./MobileHeaderSearch";
-import ServerBoundary from "../ServerBoundary";
 
-export default function MobileSidebarMenu() {
+export default function MobileSidebarMenu({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   // The component which uses the 'usePathname()' will re-render when the pathname changes and the effect will run again.
   const pathname = usePathname();
@@ -28,9 +25,7 @@ export default function MobileSidebarMenu() {
 
   return (
     <>
-      <ServerBoundary>
-        <Hamburger isOpen={isOpen} handleToggle={(toggle) => setIsOpen(toggle)} />
-      </ServerBoundary>
+      <Hamburger isOpen={isOpen} handleToggle={(toggle) => setIsOpen(toggle)} />
 
       {/* Mobile Menu Slide-In */}
       <AnimatePresence>
@@ -44,12 +39,7 @@ export default function MobileSidebarMenu() {
           >
             <div className="flex flex-col gap-4">
               <MobileHeaderSearch />
-              <ServerBoundary>
-                <HeaderNavLinks />
-              </ServerBoundary>
-              <ServerBoundary>
-                <AuthButtons />
-              </ServerBoundary>
+              {children}
             </div>
           </motion.div>
         )}

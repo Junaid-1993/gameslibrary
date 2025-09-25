@@ -7,7 +7,6 @@ import { useRef, useEffect } from "react";
 import mockGames from "@/app/data/mockGames.json"; // Assuming you have a mock data file
 import { useRouter } from "next/navigation";
 import { useDelayedUnmount } from "@/app/hooks/useDelayedUnmount";
-import ServerBoundary from "../ServerBoundary";
 
 export default function HeaderSearch({ isMobile }: { isMobile?: boolean }) {
   const query = useSearchStore((state) => state.query);
@@ -94,30 +93,28 @@ export default function HeaderSearch({ isMobile }: { isMobile?: boolean }) {
 
   return (
     <div className="relative" ref={containerRef}>
-      <ServerBoundary>
-        <SearchInput
-          value={query}
-          inputRef={inputRef}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setFocusedIndex(-1);
-          }}
-          onKeyDown={handleKeyDown}
-          onClick={() => {
-            if (query.length >= 2) setShowModal(true);
-          }}
-          onClear={() => {
-            setQuery("");
-            setFocusedIndex(-1);
-            setShowModal(false);
-            inputRef.current?.focus();
-          }}
-          isMobile={isMobile}
-          aria-haspopup="listbox"
-          aria-expanded={showModal}
-          aria-controls="search-results"
-        />
-      </ServerBoundary>
+      <SearchInput
+        value={query}
+        inputRef={inputRef}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          setFocusedIndex(-1);
+        }}
+        onKeyDown={handleKeyDown}
+        onClick={() => {
+          if (query.length >= 2) setShowModal(true);
+        }}
+        onClear={() => {
+          setQuery("");
+          setFocusedIndex(-1);
+          setShowModal(false);
+          inputRef.current?.focus();
+        }}
+        isMobile={isMobile}
+        aria-haspopup="listbox"
+        aria-expanded={showModal}
+        aria-controls="search-results"
+      />
 
       {shouldRenderResults && (
         <SearchResultModal

@@ -17,7 +17,7 @@ export default function GameCard({ game }: GameCardProps) {
   return (
     <article className="bg-surface-500 flex max-w-80 flex-col gap-3 rounded-lg p-2 transition-[background-color] duration-300 ease-in-out hover:bg-[#28292A]/80 md:gap-5 md:p-3 xl:gap-4 xl:py-3.5">
       <div className="relative">
-        <BookmarkButton bookmarked={game.bookmarked} />
+        <BookmarkButton initialState={game.bookmarked} />
 
         <Image
           src={game.imageUrl}
@@ -68,13 +68,13 @@ export default function GameCard({ game }: GameCardProps) {
 
       <div className="flex flex-col gap-2 xl:flex-row">
         <AddToListButton
-          added={game.added}
-          className="w-full xl:w-[54%] xl:gap-2.5 xl:has-[>svg]:px-2.5"
+          initialState={game.added}
+          className="w-full xl:w-[54%] xl:has-[>svg]:px-2.5"
         />
 
         <FavoriteButton
-          favorite={game.favorite}
-          className="w-full xl:w-[46%] xl:gap-2.5 xl:has-[>svg]:px-2.5"
+          initialState={game.favorite}
+          className="w-full xl:w-[46%] xl:has-[>svg]:px-2.5"
         />
       </div>
     </article>

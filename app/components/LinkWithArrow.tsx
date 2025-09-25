@@ -7,11 +7,13 @@ export default function LinkWithArrow({
   title,
   className,
   fullWidth = false,
+  arrowDirection = "right",
 }: {
   href: string;
   title: string;
   className?: string;
   fullWidth?: boolean;
+  arrowDirection?: "right" | "left";
 }) {
   return (
     <Link href={href} className={`${fullWidth ? "w-full" : "w-fit"}`}>
@@ -23,13 +25,13 @@ export default function LinkWithArrow({
           className
         )}
       >
-        {title}
+        <span className={`${arrowDirection === "left" ? "order-2" : "order-1"}`}>{title}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
           height="20"
           viewBox="0 0 16 16"
-          className="transition group-hover:translate-x-0.5"
+          className={`transition ${arrowDirection === "left" ? "order-1 rotate-180 group-hover:-translate-x-0.5" : "order-2 group-hover:translate-x-0.5"}`}
         >
           <path
             fill="currentColor"

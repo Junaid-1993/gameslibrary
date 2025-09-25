@@ -14,7 +14,7 @@ export default function NavLink({ href, children }: NavLinkProps) {
   // Only set active if not on the homepage or not the Home link
   const isHome = href === "/";
   const isFirstLoadHome = pathname === "/" && isHome;
-  const isActive = !isFirstLoadHome && pathname === href;
+  const isActive = !isFirstLoadHome && pathname.startsWith(href) && href !== "/";
 
   //   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
   //     if (isActive) {

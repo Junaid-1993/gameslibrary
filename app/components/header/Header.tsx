@@ -10,7 +10,10 @@ export default function Header() {
     <>
       {/* Top Bar */}
       <header className="flex items-center justify-between gap-6 px-3 py-3 md:px-4 md:py-3.5 xl:px-6 2xl:gap-12 2xl:px-12 2xl:py-5">
-        <MobileSidebarMenu />
+        <MobileSidebarMenu>
+          <HeaderNavLinks />
+          <AuthButtons />
+        </MobileSidebarMenu>
         <Brand />
 
         {/* Desktop content */}

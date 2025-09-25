@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { Game } from "@/app/types/Game";
 import SearchGameCard from "./SearchGameCard";
 import SearchGameCardSkeleton from "./Skeletons/SearchGameCardSkeleton";
-import ServerBoundary from "./ServerBoundary";
 
 interface SearchWithResultsProps {
   isLoading: boolean;
@@ -81,25 +80,21 @@ export default function SearchWithResults({
             <div className="mm:max-h-[568px] scrollbar-w-1 scrollbar scrollbar-thumb-gray-500 scrollbar-track-slate-700 max-h-[332px] space-y-3 overflow-y-auto scroll-smooth p-3 xl:max-h-[440px]">
               {isLoading ? (
                 <>
-                  <ServerBoundary>
-                    <SearchGameCardSkeleton />
-                  </ServerBoundary>
+                  <SearchGameCardSkeleton />
                 </>
               ) : results.length > 0 ? (
                 results.map((game, index) => (
-                  <ServerBoundary key={game.id}>
-                    <SearchGameCard
-                      key={game.id}
-                      game={game}
-                      ref={(el) => {
-                        itemRefs.current[index] = el;
-                      }}
-                      role="option"
-                      aria-selected={focusedIndex === index}
-                      tabIndex={0}
-                      className={`${focusedIndex === index ? "dark:bg-[#28292A]/30" : ""}`}
-                    />
-                  </ServerBoundary>
+                  <SearchGameCard
+                    key={game.id}
+                    game={game}
+                    ref={(el) => {
+                      itemRefs.current[index] = el;
+                    }}
+                    role="option"
+                    aria-selected={focusedIndex === index}
+                    tabIndex={0}
+                    className={`${focusedIndex === index ? "dark:bg-[#28292A]/30" : ""}`}
+                  />
                 ))
               ) : (
                 <div className="text-muted-foreground flex flex-col items-center gap-3 p-5">

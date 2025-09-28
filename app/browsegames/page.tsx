@@ -1,57 +1,53 @@
-import NewReleases from "../components/browsegames/NewReleases";
-import TopRated from "../components/browsegames/TopRated";
-import TrendingGames from "../components/browsegames/TrendingGames";
-import UpcomingGamesCarousel from "../components/browsegames/UpcomingGamesCarousel";
-import LinkWithArrow from "../components/LinkWithArrow";
+import { AnimatePresence } from "motion/react";
+import * as motion from "motion/react-client";
+import DefaultBrowseGames from "../components/browsegames/DefaultBrowseGames";
+import NotFoundGames from "../components/browsegames/NotFoundGames";
+import GameCard from "../components/GameCard";
+import GamesGrid from "../components/GamesGrid";
+import { fetchGames } from "../services/gameService";
+import { Game } from "../types/Game";
 
-export default function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string>>;
+}) {
+  const resolvedSearchParams = await searchParams;
+  const hasFilters = Object.keys(resolvedSearchParams).length > 0;
+  const filteredGames: Game[] = hasFilters ? await fetchGames(resolvedSearchParams) : [];
+
   return (
-    <>
-      <section className="flex flex-col gap-6 2xl:gap-7">
-        <UpcomingGamesCarousel />
-      </section>
+    <AnimatePresence mode="wait">
+      {!hasFilters && (
+        <motion.div
+          layout
+          key="default"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3 }}
+        >
+          <DefaultBrowseGames />
+        </motion.div>
+      )}
 
-      <section className="mt-3 flex flex-col gap-6 2xl:mt-0 2xl:gap-7">
-        <div className="gap flex flex-col justify-between sm:flex-row sm:items-center">
-          <h3 className="font-space-grotesk text-xl 2xl:text-[1.375rem]">Trending Games</h3>
+      {hasFilters && filteredGames.length > 0 && (
+        <motion.div
+          key="filtered"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3 }}
+        >
+          <GamesGrid>
+            {filteredGames.map((game) => (
+              <GameCard key={game.id} game={game} />
+            ))}
+          </GamesGrid>
+        </motion.div>
+      )}
 
-          <LinkWithArrow
-            href="/browsegames/trending"
-            title="View All Trending Games"
-            className="text-primary-300 hover:text-primary-500 border-none !pl-0 sm:!pl-3"
-          />
-        </div>
-
-        <TrendingGames />
-      </section>
-
-      <section className="mt-3 flex flex-col gap-6 2xl:mt-0 2xl:gap-7">
-        <div className="gap flex flex-col justify-between sm:flex-row sm:items-center">
-          <h3 className="font-space-grotesk text-xl 2xl:text-[1.375rem]">New Releases</h3>
-
-          <LinkWithArrow
-            href="/browsegames/new-releases"
-            title="View All New Releases Games"
-            className="text-primary-300 hover:text-primary-500 border-none !pl-0 sm:!pl-3"
-          />
-        </div>
-
-        <NewReleases />
-      </section>
-
-      <section className="mt-3 flex flex-col gap-6 2xl:mt-0 2xl:gap-7">
-        <div className="gap flex flex-col justify-between sm:flex-row sm:items-center">
-          <h3 className="font-space-grotesk text-xl 2xl:text-[1.375rem]">Top Rated</h3>
-
-          <LinkWithArrow
-            href="/browsegames/top-rated"
-            title="View All Top Rated Games"
-            className="text-primary-300 hover:text-primary-500 border-none !pl-0 sm:!pl-3"
-          />
-        </div>
-
-        <TopRated />
-      </section>
-    </>
+      {hasFilters && filteredGames.length === 0 && <NotFoundGames />}
+    </AnimatePresence>
   );
 }

@@ -1,5 +1,6 @@
 import { Game } from "@/app/types/Game";
 import GameCard from "../GameCard";
+import GamesGrid from "../GamesGrid";
 
 export default function TrendingGames() {
   const trendingGames: Game[] = [
@@ -152,10 +153,10 @@ export default function TrendingGames() {
     },
   ];
   return (
-    <div className="grid grid-cols-2 gap-x-2 gap-y-4 sm:grid-cols-3 sm:gap-x-3 lg:grid-cols-4 xl:gap-x-4 xl:gap-y-5 2xl:grid-cols-5 2xl:gap-x-3">
+    <GamesGrid>
       {trendingGames.map((game) => (
         <GameCard key={game.id} game={game} />
       ))}
-    </div>
+    </GamesGrid>
   );
 }

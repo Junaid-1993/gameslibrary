@@ -10,12 +10,14 @@ interface WishlistButtonProps {
   className?: string;
   onToggle?: (isWishlisted: boolean) => void;
   initialState?: boolean;
+  transparent?: boolean;
 }
 
 export default function WishlistButton({
   className,
   onToggle,
   initialState = false,
+  transparent = false,
 }: WishlistButtonProps) {
   const [isWishlisted, setIsWishlisted] = useState(initialState);
 
@@ -25,6 +27,8 @@ export default function WishlistButton({
     onToggle?.(newState);
   };
 
+  // dark:hover:bg-zinc-800
+
   return (
     <Button
       onClick={handleClick}
@@ -33,6 +37,7 @@ export default function WishlistButton({
       className={cn(
         "dark:bg-surface-500 relative h-auto cursor-pointer overflow-hidden transition-all duration-300 ease-in-out dark:hover:bg-zinc-800",
         isWishlisted ? "w-32" : "w-40",
+        transparent && "dark:bg-border-500 dark:hover:bg-input/50",
         className
       )}
     >
@@ -51,9 +56,9 @@ export default function WishlistButton({
             className="flex items-center justify-center"
           >
             {isWishlisted ? (
-              <BookmarkCheck className="size-6" color="#22C55E" />
+              <BookmarkCheck className="size-6 md:size-[26px]" color="#22C55E" />
             ) : (
-              <BookmarkPlus className="size-6" color="#FDB541" />
+              <BookmarkPlus className="size-6 md:size-[26px]" color="#FDB541" />
             )}
           </motion.div>
         </AnimatePresence>

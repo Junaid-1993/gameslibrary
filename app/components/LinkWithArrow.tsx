@@ -16,7 +16,7 @@ export default function LinkWithArrow({
   arrowDirection?: "right" | "left";
 }) {
   return (
-    <Link href={href} className={`${fullWidth ? "w-full" : "w-fit"}`}>
+    <Link href={href} className={`${fullWidth ? "w-full" : "w-fit"} inline-block`}>
       <Button
         variant="outline"
         aria-label={`${title} link`}

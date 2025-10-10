@@ -11,47 +11,43 @@ export default function DefaultBrowseGames() {
         <UpcomingGamesCarousel />
       </section>
 
-      <section className="mt-6 flex flex-col gap-6 2xl:mt-12 2xl:gap-7">
-        <div className="gap flex flex-col justify-between sm:flex-row sm:items-center">
-          <h3 className="font-space-grotesk text-xl 2xl:text-[1.375rem]">Trending Games</h3>
-
-          <LinkWithArrow
-            href="/browsegames/trending"
-            title="View All Trending Games"
-            className="text-primary-300 hover:text-primary-500 border-none !pl-0 sm:!pl-3"
-          />
-        </div>
-
+      <GameCategorySection headingTitle="Trending Games" linkTitle="Trending Games">
         <TrendingGames />
-      </section>
+      </GameCategorySection>
 
-      <section className="mt-6 flex flex-col gap-6 2xl:mt-12 2xl:gap-7">
-        <div className="gap flex flex-col justify-between sm:flex-row sm:items-center">
-          <h3 className="font-space-grotesk text-xl 2xl:text-[1.375rem]">New Releases</h3>
-
-          <LinkWithArrow
-            href="/browsegames/new-releases"
-            title="View All New Releases Games"
-            className="text-primary-300 hover:text-primary-500 border-none !pl-0 sm:!pl-3"
-          />
-        </div>
-
+      <GameCategorySection headingTitle="New Releases" linkTitle="New Releases Games">
         <NewReleases />
-      </section>
+      </GameCategorySection>
 
-      <section className="mt-6 flex flex-col gap-6 2xl:mt-12 2xl:gap-7">
-        <div className="gap flex flex-col justify-between sm:flex-row sm:items-center">
-          <h3 className="font-space-grotesk text-xl 2xl:text-[1.375rem]">Top Rated</h3>
-
-          <LinkWithArrow
-            href="/browsegames/top-rated"
-            title="View All Top Rated Games"
-            className="text-primary-300 hover:text-primary-500 border-none !pl-0 sm:!pl-3"
-          />
-        </div>
-
+      <GameCategorySection headingTitle="Top Rated" linkTitle="Top Rated Games">
         <TopRated />
-      </section>
+      </GameCategorySection>
     </>
+  );
+}
+
+function GameCategorySection({
+  headingTitle,
+  linkTitle,
+  children,
+}: {
+  headingTitle: string;
+  linkTitle: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="mt-6 flex flex-col gap-6 2xl:mt-12 2xl:gap-7">
+      <div className="gap flex flex-col justify-between sm:flex-row sm:items-center">
+        <h3 className="font-space-grotesk text-xl 2xl:text-[1.375rem]">{headingTitle}</h3>
+
+        <LinkWithArrow
+          href="/browsegames/trending"
+          title={`View All ${linkTitle}`}
+          className="text-primary-300 hover:text-primary-500 border-none !pl-0 sm:!pl-3"
+        />
+      </div>
+
+      {children}
+    </section>
   );
 }

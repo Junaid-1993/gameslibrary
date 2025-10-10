@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 
 export default function TopPickBadge({
   classes,
-  size = 22,
   fullBadge,
 }: {
   classes?: {
@@ -10,7 +9,6 @@ export default function TopPickBadge({
     icon?: string;
   };
   fullBadge?: boolean;
-  size?: number;
 }) {
   return (
     <div
@@ -21,8 +19,8 @@ export default function TopPickBadge({
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={size}
-        height={size}
+        width={22}
+        height={22}
         viewBox="0 0 32 36"
         className={classes?.icon ?? ""}
         role="img"

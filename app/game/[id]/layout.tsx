@@ -4,11 +4,13 @@ import LinkWithArrow from "@/app/components/LinkWithArrow";
 
 export default async function GameLayout({
   children,
+  photos,
+  videos,
   params,
-  modal,
 }: {
   children: React.ReactNode;
-  modal?: React.ReactNode;
+  photos?: React.ReactNode;
+  videos?: React.ReactNode;
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
@@ -30,10 +32,14 @@ export default async function GameLayout({
         <GameNavLinks id={id} />
       </section>
 
-      <div className="mx-auto w-full max-w-[1540px] p-6 xl:px-8">{children}</div>
+      <div className="mx-auto w-full max-w-[1540px] p-6 pt-2 pb-0 md:pt-6 md:pb-6 xl:px-8">
+        {children}
+      </div>
 
-      {/* modal slot — rendered on client navigations when intercept route is active */}
-      {modal}
+      {/* Photos modal slot — rendered on client navigations when intercept route is active */}
+      {photos}
+      {/* Videos modal slot — rendered on client navigations when intercept route is active */}
+      {videos}
     </>
   );
 }

@@ -1,5 +1,5 @@
-import ImageModal from "@/app/components/gamedetails/ImageModal";
-import ImageCarusel from "@/app/components/gamedetails/ImageCarousel";
+import InterceptedModal from "@/app/components/gamedetails/InterceptedModal";
+import ImageCarousel from "@/app/components/gamedetails/ImageCarousel";
 import mockImagesForGame from "@/app/data/mockImages";
 
 const images = mockImagesForGame();
@@ -14,8 +14,8 @@ export default async function ModalPage({
   const initialIndex = images.findIndex((img) => img.includes(imageId));
 
   return (
-    <ImageModal>
-      <ImageCarusel id={id} images={images} initialIndex={initialIndex} />
-    </ImageModal>
+    <InterceptedModal>
+      <ImageCarousel id={id} images={images} initialIndex={initialIndex} />
+    </InterceptedModal>
   );
 }

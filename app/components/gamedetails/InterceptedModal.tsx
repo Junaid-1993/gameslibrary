@@ -15,7 +15,7 @@ const modalVariants = {
   exit: { opacity: 0, scale: 0.95 },
 };
 
-export default function ImageModal({ children }: { children: React.ReactNode }) {
+export default function InterceptedModal({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [open, setOpen] = useState(true);
   const [isVisible, setIsVisible] = useState(false);

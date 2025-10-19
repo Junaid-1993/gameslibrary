@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import StarFilledSVG from "./StarFilledSVG";
 
 export default function StarRating({ userScore }: { userScore: number | null }) {
   return (
@@ -9,7 +10,8 @@ export default function StarRating({ userScore }: { userScore: number | null }) 
     >
       {userScore ? (
         <>
-          <svg
+          <StarFilledSVG className="size-5" />
+          {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -35,7 +37,7 @@ export default function StarRating({ userScore }: { userScore: number | null }) 
                 </linearGradient>
               </defs>
             </g>
-          </svg>
+          </svg> */}
           <span>{`${userScore}/10`}</span>
         </>
       ) : (

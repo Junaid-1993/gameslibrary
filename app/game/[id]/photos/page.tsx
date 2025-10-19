@@ -16,7 +16,11 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
       <div className="grid gap-x-4 gap-y-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {images.map((imgUrl, index) => (
-          <Link key={index} href={`/game/${id}/photos/${imgUrl}`}>
+          <Link
+            key={index}
+            href={`/game/${id}/photos/${imgUrl}`}
+            className="transition duration-300 ease-in-out hover:brightness-90"
+          >
             <Image
               src={`/images/game/${imgUrl}`}
               alt={`${id} screenshot`}

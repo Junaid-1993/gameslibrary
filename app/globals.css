@@ -1,10 +1,12 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --breakpoint-mm: 23.438rem;
+  --breakpoint-ml: 57.5rem;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -31,6 +33,9 @@
   --color-border-500: var(--border-500);
   --color-success-500: var(--success-500);
   --color-success-800: var(--success-800);
+  --color-disabled-800: var(--disabled-800);
+  --color-danger-300: var(--danger-300);
+  --color-warning-400: var(--warning-400);
 
   --font-space-grotesk: var(--font-space-grotesk-sans-serif);
   --font-inter: var(--font-inter-sans-serif);
@@ -128,6 +133,9 @@
   --border-500: #2a2a32;
   --success-500: #22c55e;
   --success-800: #136c34;
+  --disabled-800: #3b3f46;
+  --danger-300: #f48282;
+  --warning-400: #fbd644;
 }
 
 .dark {
@@ -178,6 +186,7 @@
   preferredstrategy: "pseudoelements";
 }
 
+/* Embla Carousel */
 .embla {
   overflow: hidden;
 }
@@ -187,4 +196,47 @@
 .embla__slide {
   flex: 0 0 100%;
   min-width: 0;
+}
+
+/* MdEditor */
+.w-md-editor {
+  background-color: #18181c !important;
+  border: 1px solid var(--border-400);
+}
+.w-md-editor-toolbar {
+  padding: 6px !important;
+  background-color: #18181c !important;
+}
+
+.w-md-editor-toolbar ul > li > button > svg {
+  width: 16px;
+  height: 16px;
+}
+
+body .w-md-editor-text-pre > code,
+body .w-md-editor-text-input {
+  font-size: 16px !important;
+  line-height: 20px !important;
+}
+
+.w-md-editor-text,
+.w-md-editor-preview {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+.w-md-editor-text-input::placeholder {
+  color: var(--muted-foreground);
+}
+
+@media (max-width: 768px) {
+  .w-md-editor-toolbar:not(.undefined) > ul:first-of-type {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .w-md-editor-toolbar > :last-child li {
+    display: none;
+  }
 }

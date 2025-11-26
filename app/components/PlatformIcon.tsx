@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export default function PlatformIcon({
   platform,
   size = 16,
@@ -8,7 +6,8 @@ export default function PlatformIcon({
   size?: number;
 }) {
   return (
-    <Image
+    /* eslint-disable @next/next/no-img-element */
+    <img
       key={platform.name}
       src={platform.icon}
       alt={`${platform.name} icon`}

@@ -1,7 +1,7 @@
-import ReviewCard from "./ReviewCard";
+import ReviewCard, { ReviewCardTypes } from "./ReviewCard";
 
 export default function ReviewCards({ id }: { id: string }) {
-  const reviews = [
+  const reviews: ReviewCardTypes = [
     {
       id: 1,
       author: "Alex Martinez",
@@ -11,6 +11,7 @@ export default function ReviewCards({ id }: { id: string }) {
       dateAdded: "April 15, 2024",
       content:
         "An incredible game with a vast open world and deep lore. Highly recommended to any RPG fan. The graphics are stunning, and the storyline kept me hooked from start to finish.",
+      hasDetailedReview: true,
     },
     {
       id: 2,
@@ -21,6 +22,7 @@ export default function ReviewCards({ id }: { id: string }) {
       dateAdded: "April 10, 2024",
       content:
         "The game's world is incredibly detailed and immersive. However, the combat can be a bit repetitive at times. Still, a must-play for RPG enthusiasts.",
+      hasDetailedReview: true,
     },
     {
       id: 3,
@@ -31,6 +33,7 @@ export default function ReviewCards({ id }: { id: string }) {
       dateAdded: "April 5, 2024",
       content:
         "This game is tough but fair. It took me sometime to get used to the mechanics, but once I did, I was very rewarding. The story is engaging, and the side quests are worth exploring.",
+      hasDetailedReview: true,
     },
   ];
 

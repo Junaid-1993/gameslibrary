@@ -50,6 +50,7 @@ export default function GameHeaderDetails({ id }: { id: string }) {
                 src="/covers/the-witcher-3-wild-hunt-1.jpg"
                 alt={`${id} game cover`}
                 fill
+                sizes="(min-width: 1280px) 256px, (min-width: 1024px) 208px, 176px"
                 className="rounded-md object-cover lg:rounded-none lg:rounded-tl-md lg:rounded-tr-md"
               />
             </div>

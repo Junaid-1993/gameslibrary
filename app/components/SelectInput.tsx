@@ -6,13 +6,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 export interface SelectedInputProps {
   id: string;
   placeholder: string;
-  values?: Record<string, string>; // current selected values
+  values?: Record<string, string> | string; // current selected values
   options: string[];
   onSelect?: (id: string, value: string) => void;
+  className?: string;
+  classes?: {
+    contentClass?: string;
+    groupClass?: string;
+    itemClass?: string;
+  };
+  reviewForm?: boolean;
+  ref?: React.Ref<HTMLButtonElement>;
 }
 
 export default function SelectInput({
@@ -21,7 +30,19 @@ export default function SelectInput({
   placeholder,
   options,
   onSelect,
+  className,
+  classes,
+  reviewForm,
+  ref,
 }: SelectedInputProps) {
+  // Extract the value
+  const value =
+    typeof values === "string"
+      ? values
+      : typeof values === "object" && values !== null
+        ? values[id] || ""
+        : "";
+
   return (
     <>
       {/* Accessible hidden label */}
@@ -29,18 +50,26 @@ export default function SelectInput({
         {placeholder}
       </label>
 
-      <Select value={values?.[id] || ""} onValueChange={(value) => onSelect?.(id, value)}>
+      <Select value={value} onValueChange={(value) => onSelect?.(id, value)}>
         <SelectTrigger
-          className="border-border-400 dark:bg-surface-500 w-full px-4 py-3 data-[size=default]:h-11 md:w-[250px] md:text-[0.938rem]"
+          className={cn(
+            "border-border-400 w-full px-4 py-3 data-[size=default]:h-11 md:w-[250px] md:text-[0.938rem]",
+            className
+          )}
           id={id}
           name={id}
+          ref={ref}
         >
-          <SelectValue placeholder={placeholder} />
+          {reviewForm ? (
+            <span className="text-muted-foreground">{placeholder}</span>
+          ) : (
+            <SelectValue placeholder={placeholder} />
+          )}
         </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
+        <SelectContent className={cn("bg-[#18181c]", classes?.contentClass)}>
+          <SelectGroup className={classes?.groupClass}>
             {options.map((option) => (
-              <SelectItem key={option} value={option}>
+              <SelectItem key={option} value={option} className={classes?.itemClass}>
                 {option}
               </SelectItem>
             ))}

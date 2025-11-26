@@ -1,12 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface ShareButtonProps {
+  className?: string;
   onToggle?: () => void;
 }
 
-export default function ShareButton({ onToggle }: ShareButtonProps) {
+export default function ShareButton({ className, onToggle }: ShareButtonProps) {
   const handleClick = () => {
     onToggle?.();
   };
@@ -16,7 +18,10 @@ export default function ShareButton({ onToggle }: ShareButtonProps) {
       onClick={handleClick}
       variant="outline"
       aria-label="Share Button"
-      className="dark:bg-border-500 relative h-auto cursor-pointer overflow-hidden transition-all duration-300 ease-in-out"
+      className={cn(
+        "dark:bg-border-500 relative h-auto cursor-pointer overflow-hidden transition-all duration-300 ease-in-out",
+        className
+      )}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

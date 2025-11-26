@@ -25,7 +25,7 @@ export default function SearchInput({
   ...props
 }: SearchInputProps) {
   return (
-    <div className="dark:bg-surface-500 relative flex w-full items-center rounded-md border">
+    <div className="relative flex w-full items-center rounded-md border">
       <Search className="absolute left-3.5" />
       <Input
         type="text"

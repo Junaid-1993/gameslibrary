@@ -7,6 +7,7 @@ import { useRef, useEffect } from "react";
 import mockGames from "@/app/data/mockGames.json"; // Assuming you have a mock data file
 import { useRouter } from "next/navigation";
 import { useDelayedUnmount } from "@/app/hooks/useDelayedUnmount";
+import { Label } from "@/components/ui/label";
 
 export default function HeaderSearch({ isMobile }: { isMobile?: boolean }) {
   const query = useSearchStore((state) => state.query);
@@ -93,7 +94,11 @@ export default function HeaderSearch({ isMobile }: { isMobile?: boolean }) {
 
   return (
     <div className="relative" ref={containerRef}>
+      <Label htmlFor="search-library" className="sr-only">
+        Search Games Library
+      </Label>
       <SearchInput
+        id="search-library"
         value={query}
         inputRef={inputRef}
         onChange={(e) => {

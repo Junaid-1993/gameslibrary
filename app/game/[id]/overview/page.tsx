@@ -13,7 +13,7 @@ export default function Page() {
       <div className="flex flex-col gap-6">
         <h3 className="font-space-grotesk text-xl font-medium xl:text-[22px]">Overview</h3>
 
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-4 lg:justify-between">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-5 lg:justify-between">
           <OverviewDetail detailTitle="Release Date" detailContent={overviewData.releaseDate} />
           <OverviewDetail detailTitle="Genres" detailContent={overviewData.genres} />
           <OverviewDetail detailTitle="Platforms" detailContent={overviewData.platforms} />
@@ -26,7 +26,7 @@ export default function Page() {
       <div className="flex flex-col gap-6">
         <h3 className="font-space-grotesk text-xl font-medium xl:text-[22px]">About the Game</h3>
 
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 text-sm/5 sm:text-base">
           <p>
             The Witcher 3: Wild Hunt is a action role-playing game developed and published by CD
             Projekt. It is the sequel to the 2011 game The Witcher 2: Assassins of Kings and the
@@ -79,7 +79,7 @@ function OverviewDetail({
   return (
     <div className="flex flex-col gap-1">
       <span className="text-secondary text-sm">{detailTitle}</span>
-      <span>{detailContent}</span>
+      <span className="text-sm sm:text-base">{detailContent}</span>
     </div>
   );
 }

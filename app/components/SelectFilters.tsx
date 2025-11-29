@@ -9,9 +9,10 @@ import { useSelectedFilters } from "../hooks/useSelectedFilters";
 
 interface ReviewFiltersProps {
   filters: SelectedInputProps[];
+  popLayout?: boolean;
 }
 
-export default function SelectFilters({ filters }: ReviewFiltersProps) {
+export default function SelectFilters({ filters, popLayout = false }: ReviewFiltersProps) {
   const { selectedFilters, handleChange, handleReset } = useSelectedFilters(filters);
 
   return (
@@ -31,7 +32,7 @@ export default function SelectFilters({ filters }: ReviewFiltersProps) {
 
       <div className="flex w-full flex-wrap items-center justify-between gap-2 gap-y-5">
         <div className="flex flex-wrap space-x-1 gap-y-2 lg:space-x-2">
-          <AnimatePresence>
+          <AnimatePresence mode={popLayout ? "popLayout" : "sync"}>
             {Object.entries(selectedFilters).map(([id, value]) => (
               <motion.span
                 key={id}
@@ -39,7 +40,7 @@ export default function SelectFilters({ filters }: ReviewFiltersProps) {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -10 }}
                 transition={{ duration: 0.3 }}
-                className="bg-muted rounded-full px-3 py-1 text-sm"
+                className="bg-muted !w-auto rounded-full px-3 py-1 text-sm"
               >
                 {id}: <span className="text-primary-300">{value}</span>
               </motion.span>
@@ -47,7 +48,7 @@ export default function SelectFilters({ filters }: ReviewFiltersProps) {
           </AnimatePresence>
         </div>
 
-        <AnimatePresence>
+        <AnimatePresence mode={popLayout ? "popLayout" : "sync"}>
           {Object.entries(selectedFilters).length > 0 && (
             <motion.div
               key="reset-button"

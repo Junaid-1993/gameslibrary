@@ -159,7 +159,7 @@ const AddPointForm = ({ pointTitle, onAddPoint, ref }: AddPointFormProps) => {
       />
       <Button
         type="button"
-        className="bg-d dark:bg-disabled-800 dark:hover:bg-primary-800 cursor-pointer text-white"
+        className="dark:bg-disabled-800 dark:hover:bg-primary-800 cursor-pointer text-white"
         size="lg"
         disabled={value.length === 0}
         onClick={handleAddPoint}

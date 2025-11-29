@@ -12,7 +12,7 @@ import { AnimatePresence, motion } from "motion/react";
 import dynamic from "next/dynamic";
 import { PropsWithChildren, useEffect, useRef } from "react";
 import { Controller, FieldErrors, useForm } from "react-hook-form";
-import rehypeSanitize from "rehype-sanitize";
+import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import z from "zod";
 import SelectInput from "../../SelectInput";
 import DetailedReview from "../DetailedReview";
@@ -25,6 +25,14 @@ import Tags from "./Tags";
 import TextareaWithCounter from "./TextareaWithCounter";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
+
+const schema = {
+  ...defaultSchema,
+  attributes: {
+    ...defaultSchema.attributes,
+    a: ["href", "title", "rel"],
+  },
+};
 
 // Infer the form values type from the experienceSchema
 type ExperienceForm = z.output<typeof experienceSchema>;
@@ -175,7 +183,7 @@ export default function ReviewFormWithPreview({
           initial={hasMounted.current ? { opacity: 0, y: 20 } : false}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.4 }}
         >
           <AnimatePresence mode="wait" initial={false}>
             {hasAllRequiredErrors && (
@@ -233,7 +241,7 @@ export default function ReviewFormWithPreview({
             <h4 className="font-space-grotesk text-lg font-medium">Short Review:</h4>
             <div>
               <div className="flex flex-col gap-3 md:w-[470px] lg:w-1/2 2xl:w-2/5">
-                <Label htmlFor="title">Review Title</Label>
+                <Label htmlFor="reviewTitle">Review Title</Label>
                 <Input
                   type="text"
                   id="reviewTitle"
@@ -369,7 +377,6 @@ export default function ReviewFormWithPreview({
                                     value={field.value ?? ""}
                                     onChange={(e) => {
                                       const val = e.target.value;
-                                      console.log(val);
                                       field.onChange(val);
                                     }}
                                     placeholder="000"
@@ -516,7 +523,7 @@ export default function ReviewFormWithPreview({
                                     "Share your full experience, opinions, highlights, and any constructive feedback.",
                                 }}
                                 previewOptions={{
-                                  rehypePlugins: [[rehypeSanitize]],
+                                  rehypePlugins: [[rehypeSanitize, schema]],
                                 }}
                               />
                             )}
@@ -638,7 +645,7 @@ export default function ReviewFormWithPreview({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.4 }}
           className="space-y-4"
         >
           <div className="flex flex-col gap-6">

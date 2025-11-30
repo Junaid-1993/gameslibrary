@@ -112,7 +112,7 @@ export default function DetailedReview({
           </div>
         </div>
       </div>
-      <div>
+      <div className="break-all">
         <div
           style={{ whiteSpace: "pre-wrap" }}
           className="prose dark:prose-invert prose-headings:font-space-grotesk prose-headings:text-2xl prose-headings:md:text-3xl prose-headings:text-accent-400 prose-headings:mb-0 prose-p:mt-0 prose-p:mb-0 prose-p:md:mt-5 prose-p:md:mb-5 prose-p:text-base prose-p:md:text-[1.063rem] prose-img:mt-0 prose-img:mb-0 prose-img:md:mt-8 prose-img:md:mb-8 prose-img:mx-auto max-w-none"

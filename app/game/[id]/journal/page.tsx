@@ -44,20 +44,22 @@ export default function Page() {
   const [journals, setJournals] = useState(userJournals);
 
   return (
-    <section className="grid gap-16">
-      <div className="flex flex-col justify-between gap-4 xl:flex-row">
+    <section className="grid gap-8 md:gap-12">
+      <div className="flex flex-col justify-between gap-3 md:gap-6 xl:flex-row">
         <div className="flex flex-col gap-4">
-          <div className="flex items-end gap-3.5 pt-[0.413rem] md:gap-5">
+          <div className="gap-3.5 pt-[0.413rem] md:flex md:items-end md:gap-5">
             <h3 className="font-space-grotesk text-xl font-medium xl:text-[22px]">
               Log your thoughts as you play
             </h3>
-            <p className="text-secondary text-sm lg:text-base">{journals.length} Entry</p>
+            <p className="text-secondary mt-2 text-sm md:mt-0 lg:text-base">
+              {journals.length} Entry
+            </p>
           </div>
         </div>
         <div>
           <div className="mt-4 w-full md:mt-1 md:w-auto lg:mt-0">
-            <div className="flex items-start gap-4">
-              <div className="mt-0.5">
+            <div className="gap-4 md:flex md:items-start">
+              <div className="mt-0.5 mb-4 md:mb-0">
                 <CreateButton />
               </div>
               <GameJournalFilters />

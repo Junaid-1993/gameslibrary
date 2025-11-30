@@ -88,14 +88,14 @@ function JournalCard({
       <div className="pb-6">
         <motion.div
           initial={false}
-          animate={{ gap: 28, padding: 32 }}
+          animate={{ gap: 28, padding: 24 }}
           exit={{
             gap: 0,
             padding: 0,
             transition: { duration: 0.5, ease: "easeInOut" },
           }}
           transition={{ duration: 0.2 }}
-          className="bg-surface-500 grid gap-7 rounded-[12px] p-8"
+          className="bg-surface-500 grid gap-7 rounded-[12px] p-6"
         >
           <div className="flex items-center justify-between">
             <span className="text-secondary text-sm">{dateCreated}</span>

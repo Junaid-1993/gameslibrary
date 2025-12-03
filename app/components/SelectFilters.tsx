@@ -1,22 +1,30 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Funnel } from "lucide-react";
+import { Funnel, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import SelectInput from "@/app/components/SelectInput";
 import { SelectedInputProps } from "@/app/components/SelectInput";
 import { useSelectedFilters } from "../hooks/useSelectedFilters";
+import { cn } from "@/lib/utils";
 
 interface ReviewFiltersProps {
   filters: SelectedInputProps[];
   popLayout?: boolean;
+  className?: string;
+  crossButton?: boolean;
 }
 
-export default function SelectFilters({ filters, popLayout = false }: ReviewFiltersProps) {
+export default function SelectFilters({
+  filters,
+  popLayout = false,
+  className,
+  crossButton = false,
+}: ReviewFiltersProps) {
   const { selectedFilters, handleChange, handleReset } = useSelectedFilters(filters);
 
   return (
-    <div className="flex flex-col items-start gap-5">
+    <div className={cn("flex flex-col items-start gap-5", className)}>
       <div className="flex w-full flex-col items-center gap-4 md:flex-row">
         {filters.map((filter) => (
           <SelectInput
@@ -57,14 +65,27 @@ export default function SelectFilters({ filters, popLayout = false }: ReviewFilt
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
             >
-              <Button
-                variant="outline"
-                className="text-accent-400 dark:border-accent-400 hover:text-background dark:hover:bg-accent-400 h-10 cursor-pointer transition duration-300 ease-in-out"
-                onClick={handleReset}
-              >
-                <Funnel />
-                Reset Filters
-              </Button>
+              {crossButton ? (
+                <Button
+                  type="button"
+                  title="Reset Sort"
+                  aria-label="Reset Sort"
+                  variant="ghost"
+                  className="mt-0.5 h-auto cursor-pointer p-0 text-white hover:text-red-400 dark:hover:bg-transparent"
+                  onClick={handleReset}
+                >
+                  <X className="size-4.5" />
+                </Button>
+              ) : (
+                <Button
+                  variant="outline"
+                  className="text-accent-400 dark:border-accent-400 hover:text-background dark:hover:bg-accent-400 h-10 cursor-pointer transition duration-300 ease-in-out"
+                  onClick={handleReset}
+                >
+                  <Funnel />
+                  Reset Filters
+                </Button>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

@@ -12,6 +12,7 @@ interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   onClear?: () => void;
   inputRef?: Ref<HTMLInputElement>;
   isMobile?: boolean;
+  placeholder?: string;
 }
 
 export default function SearchInput({
@@ -22,6 +23,7 @@ export default function SearchInput({
   onClear,
   inputRef,
   isMobile,
+  placeholder = "Search Games Library...",
   ...props
 }: SearchInputProps) {
   return (
@@ -29,7 +31,7 @@ export default function SearchInput({
       <Search className="absolute left-3.5" />
       <Input
         type="text"
-        placeholder="Search Games Library..."
+        placeholder={placeholder}
         value={value}
         onChange={onChange}
         onKeyDown={onKeyDown}

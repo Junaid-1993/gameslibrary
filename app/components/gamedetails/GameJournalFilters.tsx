@@ -22,6 +22,6 @@ const reviewFilters: SelectedInputProps[] = [
   },
 ];
 
-export default function BrowseReviewsFilters() {
+export default function GameJournalFilters() {
   return <SelectFilters filters={reviewFilters} popLayout />;
 }

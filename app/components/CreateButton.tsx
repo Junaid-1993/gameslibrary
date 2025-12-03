@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 
-export default function CreateButton({ className }: { className?: string }) {
+export default function CreateButton({ title, className }: { title: string; className?: string }) {
   return (
     <Button
       type="button"
@@ -12,7 +12,7 @@ export default function CreateButton({ className }: { className?: string }) {
       )}
       size="lg"
     >
-      <Plus /> New Entry
+      <Plus /> {title}
     </Button>
   );
 }

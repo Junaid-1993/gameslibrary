@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import CreateButton from "../CreateButton";
 import { Badge } from "@/components/ui/badge";
-import { motion, AnimatePresence } from "motion/react";
+import { Button } from "@/components/ui/button";
+import { AnimatePresence, motion } from "motion/react";
+import ContentNotFound from "../ContentNotFound";
 
 export interface JournalCardProps {
   id: string;
@@ -46,17 +46,11 @@ function NoJournals() {
       transition={{ duration: 0.2, ease: "easeOut", delay: 0.75 }}
       className="flex items-center justify-center"
     >
-      <div className="grid gap-2 text-center">
-        <h4 className="font-space-grotesk text-lg font-medium xl:text-xl">
-          No journal entries yet
-        </h4>
-        <p className="text-secondary">
-          Start tracking your thoughts, moments, and progress as you play.
-        </p>
-        <div className="mt-7">
-          <CreateButton />
-        </div>
-      </div>
+      <ContentNotFound
+        title="No journal entries yet"
+        description="Start tracking your thoughts, moments, and progress as you play."
+        buttonTitle="New Entry"
+      />
     </motion.div>
   );
 }

@@ -60,7 +60,7 @@ export default function Page() {
           <div className="mt-4 w-full md:mt-1 md:w-auto lg:mt-0">
             <div className="gap-4 md:flex md:items-start">
               <div className="mt-0.5 mb-4 md:mb-0">
-                <CreateButton />
+                <CreateButton title="New Entry" />
               </div>
               <GameJournalFilters />
             </div>

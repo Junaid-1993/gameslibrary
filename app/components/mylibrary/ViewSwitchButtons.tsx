@@ -20,7 +20,7 @@ export default function ViewSwitchButtons() {
         )}
         onClick={() => setView("list")}
       >
-        <List color="#818793" className="size-6" />
+        <List color="#818793" className="size-5" />
       </Button>
       <span className="border-border-300 inline-block h-9 w-[1px] rounded-lg border"></span>
       <Button
@@ -34,7 +34,7 @@ export default function ViewSwitchButtons() {
         )}
         onClick={() => setView("grid")}
       >
-        <LayoutGrid color="#818793" className="size-6" />
+        <LayoutGrid color="#818793" className="size-5" />
       </Button>
     </div>
   );

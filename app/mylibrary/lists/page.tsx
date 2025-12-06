@@ -1,15 +1,25 @@
 import ContentNotFound from "@/app/components/ContentNotFound";
 import CreateButton from "@/app/components/CreateButton";
 import CollapseButton from "@/app/components/mylibrary/CollapseButton";
+import List from "@/app/components/mylibrary/List";
 import ListsFilter from "@/app/components/mylibrary/ListsFilter";
 import ViewSwitchButtons from "@/app/components/mylibrary/ViewSwitchButtons";
 import SearchInput from "@/app/components/SearchInput";
 import * as motion from "motion/react-client";
 
 export default function Page() {
+  const lists = [
+    {
+      id: 0,
+      title: "My First List",
+      createdDate: "May 10, 2025",
+      url: "/lists/my-first-list",
+      games: [],
+    },
+  ];
   return (
-    <section className="grid gap-8 md:gap-14">
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-3">
+    <section className="grid gap-6 md:gap-8">
+      <div className="flex flex-col gap-6 min-[1074px]:flex-row min-[1074px]:items-start min-[1074px]:justify-between min-[1074px]:gap-3">
         <div className="w-full md:w-96">
           <SearchInput placeholder="Search Your Lists..." />
         </div>
@@ -28,12 +38,23 @@ export default function Page() {
           </div>
         </div>
       </div>
+
       <motion.div layout>
-        <ContentNotFound
-          title="No Lists Found"
-          description="It looks like you haven't created any game lists yet."
-          buttonTitle="Create Your First List"
-        />
+        {lists.length >= 1 && (
+          <div className="mb-4">
+            <p className="text-secondary">Total numbers of Lists: {lists.length}</p>
+          </div>
+        )}
+        {lists.length >= 1 ? (
+          lists.map((list) => <List key={list.id} />)
+        ) : (
+          <ContentNotFound
+            title="No Lists Found"
+            description="It looks like you haven't created any game lists yet."
+            buttonTitle="Create Your First List"
+            className="mt-6"
+          />
+        )}
       </motion.div>
     </section>
   );

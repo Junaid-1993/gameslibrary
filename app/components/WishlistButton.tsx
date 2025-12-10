@@ -27,8 +27,6 @@ export default function WishlistButton({
     onToggle?.(newState);
   };
 
-  // dark:hover:bg-zinc-800
-
   return (
     <Button
       onClick={handleClick}
@@ -46,7 +44,7 @@ export default function WishlistButton({
         layout
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={isWishlisted ? "check" : "plus"}
             initial={{ scale: 0 }}
@@ -63,7 +61,7 @@ export default function WishlistButton({
           </motion.div>
         </AnimatePresence>
 
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" initial={false}>
           <motion.span
             key={isWishlisted ? "wishlisted" : "add"}
             initial={{ opacity: 0, y: 10 }}

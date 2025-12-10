@@ -4,17 +4,20 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronsDown, ChevronsUp, ChevronUp } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
 
 export default function CollapseButton({
   className,
+  collapse,
+  onCollapse,
   singleChevron = false,
+  disable = false,
 }: {
   className?: string;
   singleChevron?: boolean;
+  collapse?: boolean;
+  onCollapse?: () => void;
+  disable?: boolean;
 }) {
-  const [collapse, setCollapse] = useState(false);
-
   return (
     <div
       className={cn(
@@ -25,9 +28,18 @@ export default function CollapseButton({
     >
       <Button
         variant="ghost"
-        title={singleChevron ? "Collapse List" : "Collapse All Lists"}
+        title={
+          singleChevron
+            ? collapse
+              ? "Expand List"
+              : "Collapse List"
+            : collapse
+              ? "Expand All Lists"
+              : "Collapse All Lists"
+        }
         className={"h-full cursor-pointer px-3"}
-        onClick={() => setCollapse((val) => !val)}
+        onClick={onCollapse}
+        disabled={disable}
       >
         <AnimatePresence mode="wait" initial={false}>
           {collapse ? (

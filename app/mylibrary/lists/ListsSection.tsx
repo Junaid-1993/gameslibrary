@@ -1,0 +1,90 @@
+"use client";
+
+import ContentNotFound from "@/app/components/ContentNotFound";
+import CreateButton from "@/app/components/CreateButton";
+import CollapseButton from "@/app/components/mylibrary/CollapseButton";
+import List, { ListProps } from "@/app/components/mylibrary/List";
+import ListsFilter from "@/app/components/mylibrary/ListsFilter";
+import ViewSwitchButtons from "@/app/components/mylibrary/ViewSwitchButtons";
+import SearchInput from "@/app/components/SearchInput";
+import { motion } from "motion/react";
+import { useState } from "react";
+
+export default function ListsSection({ lists }: { lists: ListProps[] }) {
+  // Track collapse state for each list by id
+  const [collapsedLists, setCollapsedLists] = useState<Record<string, boolean>>({});
+
+  // Derived global state: true if all lists are collapsed
+  const allCollapsed = lists.length > 0 && lists.every((list) => collapsedLists[list.id]);
+
+  // Toggle Global Collapse button
+  const toggleGlobal = () => {
+    const newState = !allCollapsed;
+    const updated: Record<string, boolean> = {};
+    lists.forEach((list) => {
+      updated[list.id] = newState;
+    });
+    setCollapsedLists(updated);
+  };
+
+  //  // Toggle List's individual Collapse button
+  const toggleList = (id: string) => {
+    setCollapsedLists((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
+  const hasLists = lists.length >= 1;
+
+  return (
+    <section className="grid gap-6 md:gap-8">
+      <div className="flex flex-col gap-6 min-[1074px]:flex-row min-[1074px]:items-start min-[1074px]:justify-between min-[1074px]:gap-3">
+        <div className="w-full md:w-96">
+          <SearchInput placeholder="Search Your Lists..." />
+        </div>
+        <div className="grid grid-cols-[1fr_auto] gap-x-2 gap-y-4 sm:grid-cols-[auto_1fr_auto] md:flex md:justify-end">
+          <div className="mt-0.5 mb-0 md:mb-0 lg:mr-2">
+            <CreateButton title="Create New List" className="w-full lg:w-fit" />
+          </div>
+          <div className="col-span-2 sm:col-span-1 sm:col-start-2 sm:row-start-1 md:content-end">
+            <ListsFilter />
+          </div>
+          <div className="col-start-2 row-start-1 content-center sm:col-start-3 sm:content-start">
+            <div className="flex items-center gap-2">
+              <ViewSwitchButtons />
+              <CollapseButton collapse={allCollapsed} onCollapse={toggleGlobal} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <motion.div layout>
+        {hasLists && (
+          <div className="mb-4">
+            <p className="text-secondary">Total numbers of Lists: {lists.length}</p>
+          </div>
+        )}
+        {hasLists ? (
+          <section className="grid gap-8 md:gap-10 xl:gap-12">
+            {lists.map((list) => (
+              <List
+                key={list.id}
+                {...list}
+                collapsed={collapsedLists[String(list.id)] ?? false}
+                onToggle={() => toggleList(String(list.id))}
+              />
+            ))}
+          </section>
+        ) : (
+          <ContentNotFound
+            title="No Lists Found"
+            description="It looks like you haven't created any game lists yet."
+            buttonTitle="Create Your First List"
+            className="mt-6"
+          />
+        )}
+      </motion.div>
+    </section>
+  );
+}

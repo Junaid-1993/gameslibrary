@@ -31,7 +31,7 @@ export default function MyLibraryLayout({ children }: { children: React.ReactNod
         </div>
 
         <div className="mt-4">
-          <MyLibraryNavLinks userLibraryData={{ lists: 0, wishlist: 0, favorites: 0 }} />
+          <MyLibraryNavLinks userLibraryData={{ lists: 1, wishlist: 0, favorites: 0 }} />
         </div>
       </section>
       {children}

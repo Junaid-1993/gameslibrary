@@ -2,22 +2,40 @@ import Image from "next/image";
 import { Game } from "../types/Game";
 import AddToListButton from "./AddToListButton";
 import BookmarkButton from "./BookmarkButton";
+import DropdownActionMenu from "./DropdownActionMenu";
 import FavoriteButton from "./FavoriteButton";
 import LinkWithArrow from "./LinkWithArrow";
 import Metascore from "./Metascore";
+import ListGameCardContentMenu from "./mylibrary/ListGameCardContextMenu";
 import PlatformIcon from "./PlatformIcon";
 import StarRating from "./StarRating";
 import TopPickBadge from "./TopPickBadge";
 
 interface GameCardProps {
   game: Game;
+  renderedIn?: "List" | "Wishlist" | "Favorites";
+  shouldRenderWishlistComponent?: boolean;
+  hasActionMenu?: boolean;
 }
 
-export default function GameCard({ game }: GameCardProps) {
+export default function GameCard({
+  game,
+  renderedIn,
+  shouldRenderWishlistComponent = true,
+  hasActionMenu = false,
+}: GameCardProps) {
   return (
     <article className="bg-surface-500 flex max-w-80 flex-col gap-3 rounded-lg p-2 transition-[background-color] duration-300 ease-in-out hover:bg-[#28292A]/80 md:gap-5 md:p-3 xl:gap-4 xl:py-3.5">
       <div className="relative">
-        <BookmarkButton initialState={game.bookmarked} />
+        {shouldRenderWishlistComponent && <BookmarkButton initialState={game.bookmarked} />}
+
+        {hasActionMenu && (
+          <div className="absolute top-1 right-1 sm:top-2 sm:right-2">
+            <DropdownActionMenu className="dark:bg-border-500 dark:hover:bg-border-500/90 h-9 w-9 rounded-full shadow-2xl md:h-10 md:w-10">
+              <ListGameCardContentMenu />
+            </DropdownActionMenu>
+          </div>
+        )}
 
         <Image
           src={game.imageUrl}
@@ -30,7 +48,7 @@ export default function GameCard({ game }: GameCardProps) {
         {game.topPick && (
           <TopPickBadge
             classes={{
-              container: "absolute bottom-3 left-2",
+              container: `absolute ${shouldRenderWishlistComponent ? "bottom-3 left-2" : "top-2 left-1 sm:left-2"} `,
               icon: "md:size-6 xl:size-[26px]",
             }}
             fullBadge
@@ -53,28 +71,32 @@ export default function GameCard({ game }: GameCardProps) {
           />
         </div>
 
-        <div className="flex flex-col gap-2 xl:flex-row xl:items-center xl:justify-between">
+        <div className="flex flex-col gap-1 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex items-center justify-between gap-2 xl:gap-1">
             <span className="text-sm font-medium">My Score</span>
             <StarRating userScore={game.myscore} />
           </div>
 
           <div className="flex items-center justify-between gap-2 xl:gap-1.5">
-            <span className="text-sm font-medium">Metascore</span>
+            <span className="text-sm font-medium">Metacritic</span>
             {game?.metascore ? <Metascore score={game.metascore} /> : "N/A"}
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 xl:flex-row">
+      <div className={`flex ${renderedIn ? "flex-row" : "flex-col"} gap-2 xl:flex-row`}>
         <AddToListButton
+          title={renderedIn ? renderedIn : undefined}
           initialState={game.added}
-          className="w-full xl:w-[54%] xl:has-[>svg]:px-2.5"
+          className={`w-full ${renderedIn ? "order-2 w-1/2 md:w-fit md:grow-1" : "xl:w-[54%]"} xl:has-[>svg]:px-2.5`}
+          disableAnimation={renderedIn && true}
         />
 
         <FavoriteButton
+          titleText={renderedIn ? "Mark as Favorite" : undefined}
+          iconOnly={renderedIn && false}
           initialState={game.favorite}
-          className="w-full xl:w-[46%] xl:has-[>svg]:px-2.5"
+          className={`${renderedIn ? "order-1 w-1/2 md:w-fit" : "w-full xl:w-[46%]"} xl:has-[>svg]:px-2.5`}
         />
       </div>
     </article>

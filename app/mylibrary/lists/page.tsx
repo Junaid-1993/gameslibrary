@@ -1,61 +1,385 @@
-import ContentNotFound from "@/app/components/ContentNotFound";
-import CreateButton from "@/app/components/CreateButton";
-import CollapseButton from "@/app/components/mylibrary/CollapseButton";
-import List from "@/app/components/mylibrary/List";
-import ListsFilter from "@/app/components/mylibrary/ListsFilter";
-import ViewSwitchButtons from "@/app/components/mylibrary/ViewSwitchButtons";
-import SearchInput from "@/app/components/SearchInput";
-import * as motion from "motion/react-client";
+import { ListProps } from "@/app/components/mylibrary/List";
+import ListsSection from "./ListsSection";
 
 export default function Page() {
-  const lists = [
+  const lists: ListProps[] = [
     {
       id: 0,
       title: "My First List",
       createdDate: "May 10, 2025",
-      url: "/lists/my-first-list",
-      games: [],
+      fullViewUrl: "/lists/my-first-list",
+      games: [
+        {
+          id: 1,
+          title: "The Last of Us Part 1",
+          imageUrl: "/covers/the-last-of-us.jpg",
+          releaseDate: "May 20, 2026",
+          myscore: 10,
+          metascore: 95,
+          topPick: true,
+          added: true,
+          bookmarked: true,
+          favorite: true,
+          link: "#",
+          platforms: [
+            { name: "Windows", icon: "/icons/windows.svg" },
+            { name: "PlayStation", icon: "/icons/playstation.svg" },
+          ],
+        },
+        {
+          id: 2,
+          title: "Resident Evil 4",
+          imageUrl: "/covers/resident-evil-4.jpg",
+          releaseDate: "August 28, 2025",
+          myscore: 9,
+          metascore: 93,
+          topPick: true,
+          added: true,
+          bookmarked: true,
+          favorite: true,
+          link: "#",
+          platforms: [
+            { name: "Windows", icon: "/icons/windows.svg" },
+            { name: "PlayStation", icon: "/icons/playstation.svg" },
+            { name: "Xbox", icon: "/icons/xbox.svg" },
+          ],
+        },
+        {
+          id: 3,
+          title: "It Takes Two",
+          imageUrl: "/covers/it-takes-two.jpg",
+          releaseDate: "September 12, 2025",
+          myscore: 9,
+          metascore: 88,
+          topPick: true,
+          added: true,
+          bookmarked: true,
+          favorite: true,
+          link: "#",
+          platforms: [
+            { name: "Windows", icon: "/icons/windows.svg" },
+            { name: "PlayStation", icon: "/icons/playstation.svg" },
+            { name: "Xbox", icon: "/icons/xbox.svg" },
+            { name: "Nintendo", icon: "/icons/nintendo.svg" },
+          ],
+        },
+        {
+          id: 4,
+          title: "Split Fiction",
+          imageUrl: "/covers/split-fiction.jpg",
+          releaseDate: "June 20, 2025",
+          myscore: 9,
+          metascore: 91,
+          topPick: true,
+          added: true,
+          bookmarked: true,
+          favorite: true,
+          link: "#",
+          platforms: [
+            { name: "Windows", icon: "/icons/windows.svg" },
+            { name: "PlayStation", icon: "/icons/playstation.svg" },
+            { name: "Xbox", icon: "/icons/xbox.svg" },
+            { name: "Nintendo", icon: "/icons/nintendo.svg" },
+          ],
+        },
+        // {
+        //   id: 5,
+        //   title: "South of Midnight",
+        //   imageUrl: "/covers/south-of-midnight.jpg",
+        //   releaseDate: "August 25, 2025",
+        //   myscore: null,
+        //   metascore: 77,
+        //   topPick: false,
+        //   added: true,
+        //   bookmarked: false,
+        //   favorite: false,
+        //   link: "#",
+        //   platforms: [
+        //     { name: "Windows", icon: "/icons/windows.svg" },
+        //     { name: "Xbox", icon: "/icons/xbox.svg" },
+        //   ],
+        // },
+        // {
+        //   id: 6,
+        //   title: "The Last of Us Part 1",
+        //   imageUrl: "/covers/the-last-of-us.jpg",
+        //   releaseDate: "May 20, 2026",
+        //   myscore: 10,
+        //   metascore: 95,
+        //   topPick: true,
+        //   added: true,
+        //   bookmarked: true,
+        //   favorite: true,
+        //   link: "#",
+        //   platforms: [
+        //     { name: "Windows", icon: "/icons/windows.svg" },
+        //     { name: "PlayStation", icon: "/icons/playstation.svg" },
+        //   ],
+        // },
+        // {
+        //   id: 7,
+        //   title: "Resident Evil 4",
+        //   imageUrl: "/covers/resident-evil-4.jpg",
+        //   releaseDate: "August 28, 2025",
+        //   myscore: 9,
+        //   metascore: 93,
+        //   topPick: true,
+        //   added: true,
+        //   bookmarked: true,
+        //   favorite: true,
+        //   link: "#",
+        //   platforms: [
+        //     { name: "Windows", icon: "/icons/windows.svg" },
+        //     { name: "PlayStation", icon: "/icons/playstation.svg" },
+        //     { name: "Xbox", icon: "/icons/xbox.svg" },
+        //   ],
+        // },
+        // {
+        //   id: 8,
+        //   title: "It Takes Two",
+        //   imageUrl: "/covers/it-takes-two.jpg",
+        //   releaseDate: "September 12, 2025",
+        //   myscore: 9,
+        //   metascore: 88,
+        //   topPick: true,
+        //   added: true,
+        //   bookmarked: true,
+        //   favorite: true,
+        //   link: "#",
+        //   platforms: [
+        //     { name: "Windows", icon: "/icons/windows.svg" },
+        //     { name: "PlayStation", icon: "/icons/playstation.svg" },
+        //     { name: "Xbox", icon: "/icons/xbox.svg" },
+        //     { name: "Nintendo", icon: "/icons/nintendo.svg" },
+        //   ],
+        // },
+        // {
+        //   id: 9,
+        //   title: "Split Fiction",
+        //   imageUrl: "/covers/split-fiction.jpg",
+        //   releaseDate: "June 20, 2025",
+        //   myscore: 9,
+        //   metascore: 91,
+        //   topPick: true,
+        //   added: true,
+        //   bookmarked: true,
+        //   favorite: true,
+        //   link: "#",
+        //   platforms: [
+        //     { name: "Windows", icon: "/icons/windows.svg" },
+        //     { name: "PlayStation", icon: "/icons/playstation.svg" },
+        //     { name: "Xbox", icon: "/icons/xbox.svg" },
+        //     { name: "Nintendo", icon: "/icons/nintendo.svg" },
+        //   ],
+        // },
+        // {
+        //   id: 10,
+        //   title: "South of Midnight",
+        //   imageUrl: "/covers/south-of-midnight.jpg",
+        //   releaseDate: "August 25, 2025",
+        //   myscore: null,
+        //   metascore: 77,
+        //   topPick: false,
+        //   added: true,
+        //   bookmarked: false,
+        //   favorite: false,
+        //   link: "#",
+        //   platforms: [
+        //     { name: "Windows", icon: "/icons/windows.svg" },
+        //     { name: "Xbox", icon: "/icons/xbox.svg" },
+        //   ],
+        // },
+      ],
+    },
+    {
+      id: 1,
+      title: "All Time Favorites",
+      createdDate: "August 10, 2025",
+      fullViewUrl: "/lists/all-time-favorites",
+      games: [
+        {
+          id: 1,
+          title: "The Last of Us Part 1",
+          imageUrl: "/covers/the-last-of-us.jpg",
+          releaseDate: "May 20, 2026",
+          myscore: 10,
+          metascore: 95,
+          topPick: true,
+          added: true,
+          bookmarked: true,
+          favorite: true,
+          link: "#",
+          platforms: [
+            { name: "Windows", icon: "/icons/windows.svg" },
+            { name: "PlayStation", icon: "/icons/playstation.svg" },
+          ],
+        },
+        {
+          id: 2,
+          title: "Resident Evil 4",
+          imageUrl: "/covers/resident-evil-4.jpg",
+          releaseDate: "August 28, 2025",
+          myscore: 9,
+          metascore: 93,
+          topPick: true,
+          added: true,
+          bookmarked: true,
+          favorite: true,
+          link: "#",
+          platforms: [
+            { name: "Windows", icon: "/icons/windows.svg" },
+            { name: "PlayStation", icon: "/icons/playstation.svg" },
+            { name: "Xbox", icon: "/icons/xbox.svg" },
+          ],
+        },
+        {
+          id: 3,
+          title: "It Takes Two",
+          imageUrl: "/covers/it-takes-two.jpg",
+          releaseDate: "September 12, 2025",
+          myscore: 9,
+          metascore: 88,
+          topPick: true,
+          added: true,
+          bookmarked: true,
+          favorite: true,
+          link: "#",
+          platforms: [
+            { name: "Windows", icon: "/icons/windows.svg" },
+            { name: "PlayStation", icon: "/icons/playstation.svg" },
+            { name: "Xbox", icon: "/icons/xbox.svg" },
+            { name: "Nintendo", icon: "/icons/nintendo.svg" },
+          ],
+        },
+        {
+          id: 4,
+          title: "Split Fiction",
+          imageUrl: "/covers/split-fiction.jpg",
+          releaseDate: "June 20, 2025",
+          myscore: 9,
+          metascore: 91,
+          topPick: true,
+          added: true,
+          bookmarked: true,
+          favorite: true,
+          link: "#",
+          platforms: [
+            { name: "Windows", icon: "/icons/windows.svg" },
+            { name: "PlayStation", icon: "/icons/playstation.svg" },
+            { name: "Xbox", icon: "/icons/xbox.svg" },
+            { name: "Nintendo", icon: "/icons/nintendo.svg" },
+          ],
+        },
+        {
+          id: 5,
+          title: "South of Midnight",
+          imageUrl: "/covers/south-of-midnight.jpg",
+          releaseDate: "August 25, 2025",
+          myscore: null,
+          metascore: 77,
+          topPick: false,
+          added: true,
+          bookmarked: false,
+          favorite: false,
+          link: "#",
+          platforms: [
+            { name: "Windows", icon: "/icons/windows.svg" },
+            { name: "Xbox", icon: "/icons/xbox.svg" },
+          ],
+        },
+        // {
+        //   id: 6,
+        //   title: "The Last of Us Part 1",
+        //   imageUrl: "/covers/the-last-of-us.jpg",
+        //   releaseDate: "May 20, 2026",
+        //   myscore: 10,
+        //   metascore: 95,
+        //   topPick: true,
+        //   added: true,
+        //   bookmarked: true,
+        //   favorite: true,
+        //   link: "#",
+        //   platforms: [
+        //     { name: "Windows", icon: "/icons/windows.svg" },
+        //     { name: "PlayStation", icon: "/icons/playstation.svg" },
+        //   ],
+        // },
+        // {
+        //   id: 7,
+        //   title: "Resident Evil 4",
+        //   imageUrl: "/covers/resident-evil-4.jpg",
+        //   releaseDate: "August 28, 2025",
+        //   myscore: 9,
+        //   metascore: 93,
+        //   topPick: true,
+        //   added: true,
+        //   bookmarked: true,
+        //   favorite: true,
+        //   link: "#",
+        //   platforms: [
+        //     { name: "Windows", icon: "/icons/windows.svg" },
+        //     { name: "PlayStation", icon: "/icons/playstation.svg" },
+        //     { name: "Xbox", icon: "/icons/xbox.svg" },
+        //   ],
+        // },
+        // {
+        //   id: 8,
+        //   title: "It Takes Two",
+        //   imageUrl: "/covers/it-takes-two.jpg",
+        //   releaseDate: "September 12, 2025",
+        //   myscore: 9,
+        //   metascore: 88,
+        //   topPick: true,
+        //   added: true,
+        //   bookmarked: true,
+        //   favorite: true,
+        //   link: "#",
+        //   platforms: [
+        //     { name: "Windows", icon: "/icons/windows.svg" },
+        //     { name: "PlayStation", icon: "/icons/playstation.svg" },
+        //     { name: "Xbox", icon: "/icons/xbox.svg" },
+        //     { name: "Nintendo", icon: "/icons/nintendo.svg" },
+        //   ],
+        // },
+        // {
+        //   id: 9,
+        //   title: "Split Fiction",
+        //   imageUrl: "/covers/split-fiction.jpg",
+        //   releaseDate: "June 20, 2025",
+        //   myscore: 9,
+        //   metascore: 91,
+        //   topPick: true,
+        //   added: true,
+        //   bookmarked: true,
+        //   favorite: true,
+        //   link: "#",
+        //   platforms: [
+        //     { name: "Windows", icon: "/icons/windows.svg" },
+        //     { name: "PlayStation", icon: "/icons/playstation.svg" },
+        //     { name: "Xbox", icon: "/icons/xbox.svg" },
+        //     { name: "Nintendo", icon: "/icons/nintendo.svg" },
+        //   ],
+        // },
+        // {
+        //   id: 10,
+        //   title: "South of Midnight",
+        //   imageUrl: "/covers/south-of-midnight.jpg",
+        //   releaseDate: "August 25, 2025",
+        //   myscore: null,
+        //   metascore: 77,
+        //   topPick: false,
+        //   added: true,
+        //   bookmarked: false,
+        //   favorite: false,
+        //   link: "#",
+        //   platforms: [
+        //     { name: "Windows", icon: "/icons/windows.svg" },
+        //     { name: "Xbox", icon: "/icons/xbox.svg" },
+        //   ],
+        // },
+      ],
     },
   ];
-  return (
-    <section className="grid gap-6 md:gap-8">
-      <div className="flex flex-col gap-6 min-[1074px]:flex-row min-[1074px]:items-start min-[1074px]:justify-between min-[1074px]:gap-3">
-        <div className="w-full md:w-96">
-          <SearchInput placeholder="Search Your Lists..." />
-        </div>
-        <div className="grid grid-cols-[1fr_auto] gap-x-2 gap-y-4 sm:grid-cols-[auto_1fr_auto] md:flex md:justify-end">
-          <div className="mt-0.5 mb-0 md:mb-0 lg:mr-2">
-            <CreateButton title="Create New List" className="w-full lg:w-fit" />
-          </div>
-          <div className="col-span-2 sm:col-span-1 sm:col-start-2 sm:row-start-1 md:content-end">
-            <ListsFilter />
-          </div>
-          <div className="col-start-2 row-start-1 content-center sm:col-start-3 sm:content-start">
-            <div className="flex items-center gap-2">
-              <ViewSwitchButtons />
-              <CollapseButton />
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <motion.div layout>
-        {lists.length >= 1 && (
-          <div className="mb-4">
-            <p className="text-secondary">Total numbers of Lists: {lists.length}</p>
-          </div>
-        )}
-        {lists.length >= 1 ? (
-          lists.map((list) => <List key={list.id} />)
-        ) : (
-          <ContentNotFound
-            title="No Lists Found"
-            description="It looks like you haven't created any game lists yet."
-            buttonTitle="Create Your First List"
-            className="mt-6"
-          />
-        )}
-      </motion.div>
-    </section>
-  );
+  return <ListsSection lists={lists} />;
 }

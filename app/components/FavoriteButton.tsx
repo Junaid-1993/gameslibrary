@@ -9,13 +9,20 @@ interface FavoriteButtonProps {
   className?: string;
   onToggle?: (isFavorite: boolean) => void;
   initialState?: boolean;
+  iconOnly?: boolean;
+  titleText?: string;
 }
 
-const FavoriteButton = ({ className, initialState, onToggle }: FavoriteButtonProps) => {
+const FavoriteButton = ({
+  className,
+  initialState,
+  onToggle,
+  titleText,
+  iconOnly = true,
+}: FavoriteButtonProps) => {
   const [isFavorite, setIsFavorite] = useState(initialState);
 
   const handleClick = () => {
-    // setFavorite((prev) => !prev);
     const newState = !isFavorite;
     setIsFavorite(newState);
     onToggle?.(newState);
@@ -30,6 +37,7 @@ const FavoriteButton = ({ className, initialState, onToggle }: FavoriteButtonPro
         className
       )}
       aria-label="Favorite Button"
+      title={titleText}
     >
       <motion.svg
         width={25}
@@ -71,7 +79,7 @@ const FavoriteButton = ({ className, initialState, onToggle }: FavoriteButtonPro
           </linearGradient>
         </defs>
       </motion.svg>
-      <span>Favorite</span>
+      {iconOnly && <span>Favorite</span>}
     </Button>
   );
 };

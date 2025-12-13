@@ -3,14 +3,17 @@
 import ContentNotFound from "@/app/components/ContentNotFound";
 import CreateButton from "@/app/components/CreateButton";
 import CollapseButton from "@/app/components/mylibrary/CollapseButton";
-import List, { ListProps } from "@/app/components/mylibrary/List";
+import ListItemGrid from "@/app/components/mylibrary/ListItemGrid";
+import ListItemRow, { ListProps } from "@/app/components/mylibrary/ListItemRow";
 import ListsFilter from "@/app/components/mylibrary/ListsFilter";
 import ViewSwitchButtons from "@/app/components/mylibrary/ViewSwitchButtons";
 import SearchInput from "@/app/components/SearchInput";
-import { motion } from "motion/react";
+import { AnimatePresence, motion, Variants } from "motion/react";
 import { useState } from "react";
 
 export default function ListsSection({ lists }: { lists: ListProps[] }) {
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
   // Track collapse state for each list by id
   const [collapsedLists, setCollapsedLists] = useState<Record<string, boolean>>({});
 
@@ -37,6 +40,27 @@ export default function ListsSection({ lists }: { lists: ListProps[] }) {
 
   const hasLists = lists.length >= 1;
 
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+    exit: { opacity: 0 },
+  };
+
+  const listItemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut" } },
+    exit: { opacity: 0, y: -20, transition: { duration: 0.2, ease: "easeIn" } },
+  };
+
+  const gridItemVariants: Variants = {
+    hidden: { opacity: 0, x: -20 },
+    show: { opacity: 1, x: 0, transition: { duration: 0.3, ease: "easeOut" } },
+    exit: { opacity: 0, x: 20, transition: { duration: 0.2, ease: "easeIn" } },
+  };
+
   return (
     <section className="grid gap-6 md:gap-8">
       <div className="flex flex-col gap-6 min-[1074px]:flex-row min-[1074px]:items-start min-[1074px]:justify-between min-[1074px]:gap-3">
@@ -52,8 +76,15 @@ export default function ListsSection({ lists }: { lists: ListProps[] }) {
           </div>
           <div className="col-start-2 row-start-1 content-center sm:col-start-3 sm:content-start">
             <div className="flex items-center gap-2">
-              <ViewSwitchButtons />
-              <CollapseButton collapse={allCollapsed} onCollapse={toggleGlobal} />
+              <ViewSwitchButtons
+                viewMode={viewMode}
+                onViewModeChange={(mode) => setViewMode(mode)}
+              />
+              <CollapseButton
+                collapse={allCollapsed}
+                onCollapse={toggleGlobal}
+                disable={viewMode === "grid"}
+              />
             </div>
           </div>
         </div>
@@ -66,16 +97,43 @@ export default function ListsSection({ lists }: { lists: ListProps[] }) {
           </div>
         )}
         {hasLists ? (
-          <section className="grid gap-8 md:gap-10 xl:gap-12">
-            {lists.map((list) => (
-              <List
-                key={list.id}
-                {...list}
-                collapsed={collapsedLists[String(list.id)] ?? false}
-                onToggle={() => toggleList(String(list.id))}
-              />
-            ))}
-          </section>
+          <AnimatePresence mode="wait">
+            {viewMode === "grid" ? (
+              <motion.section
+                key="grid"
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+                exit="exit"
+                className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 md:gap-3 xl:grid-cols-4 2xl:gap-5"
+              >
+                {lists.map((list) => (
+                  <motion.div key={list.id} variants={gridItemVariants}>
+                    <ListItemGrid {...list} />
+                  </motion.div>
+                ))}
+              </motion.section>
+            ) : (
+              <motion.section
+                key="list"
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+                exit="exit"
+                className="flex flex-col gap-8 md:gap-10 xl:gap-12"
+              >
+                {lists.map((list) => (
+                  <motion.div key={list.id} variants={listItemVariants}>
+                    <ListItemRow
+                      {...list}
+                      collapsed={collapsedLists[String(list.id)] ?? false}
+                      onToggle={() => toggleList(String(list.id))}
+                    />
+                  </motion.div>
+                ))}
+              </motion.section>
+            )}
+          </AnimatePresence>
         ) : (
           <ContentNotFound
             title="No Lists Found"

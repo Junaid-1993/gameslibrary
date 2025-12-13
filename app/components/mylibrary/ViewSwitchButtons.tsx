@@ -1,12 +1,14 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { List, LayoutGrid } from "lucide-react";
-import { useState } from "react";
+import { LayoutGrid, List } from "lucide-react";
 
-export default function ViewSwitchButtons() {
-  const [view, setView] = useState<"list" | "grid">("list");
+export default function ViewSwitchButtons({
+  viewMode,
+  onViewModeChange,
+}: {
+  viewMode: string;
+  onViewModeChange: (mode: "list" | "grid") => void;
+}) {
   return (
     <div className="border-border-300 flex h-10 w-fit items-center rounded-[12px] border md:h-11">
       <Button
@@ -15,10 +17,10 @@ export default function ViewSwitchButtons() {
         className={cn(
           "h-full cursor-pointer rounded-none rounded-tl-[12px] rounded-bl-[12px] transition-colors duration-500 ease-in-out dark:!bg-transparent",
           {
-            "dark:!bg-border-500": view === "list",
+            "dark:!bg-border-500": viewMode === "list",
           }
         )}
-        onClick={() => setView("list")}
+        onClick={() => onViewModeChange("list")}
       >
         <List color="#818793" className="size-5" />
       </Button>
@@ -29,10 +31,10 @@ export default function ViewSwitchButtons() {
         className={cn(
           "h-full cursor-pointer rounded-none rounded-tr-[12px] rounded-br-[12px] transition-colors duration-500 ease-in-out dark:!bg-transparent",
           {
-            "dark:!bg-border-500": view === "grid",
+            "dark:!bg-border-500": viewMode === "grid",
           }
         )}
-        onClick={() => setView("grid")}
+        onClick={() => onViewModeChange("grid")}
       >
         <LayoutGrid color="#818793" className="size-5" />
       </Button>

@@ -1,4 +1,4 @@
-import { ListProps } from "@/app/components/mylibrary/List";
+import { ListProps } from "@/app/components/mylibrary/ListItemRow";
 import ListsSection from "./ListsSection";
 
 export default function Page() {
@@ -377,6 +377,91 @@ export default function Page() {
         //     { name: "Xbox", icon: "/icons/xbox.svg" },
         //   ],
         // },
+      ],
+    },
+    {
+      id: 2,
+      title: "Playing right now",
+      createdDate: "September 20, 2025",
+      fullViewUrl: "/lists/playing-right-now",
+      games: [
+        {
+          id: 10,
+          title: "South of Midnight",
+          imageUrl: "/covers/south-of-midnight.jpg",
+          releaseDate: "August 25, 2025",
+          myscore: null,
+          metascore: 77,
+          topPick: false,
+          added: true,
+          bookmarked: false,
+          favorite: false,
+          link: "#",
+          platforms: [
+            { name: "Windows", icon: "/icons/windows.svg" },
+            { name: "Xbox", icon: "/icons/xbox.svg" },
+          ],
+        },
+      ],
+    },
+    {
+      id: 3,
+      title: "Will play next",
+      createdDate: "September 30, 2025",
+      fullViewUrl: "/lists/will-play-next",
+      games: [
+        {
+          id: 17,
+          title: "Resident Evil 4",
+          imageUrl: "/covers/resident-evil-4.jpg",
+          releaseDate: "August 28, 2025",
+          myscore: 9,
+          metascore: 93,
+          topPick: true,
+          added: true,
+          bookmarked: true,
+          favorite: true,
+          link: "#",
+          platforms: [
+            { name: "Windows", icon: "/icons/windows.svg" },
+            { name: "PlayStation", icon: "/icons/playstation.svg" },
+            { name: "Xbox", icon: "/icons/xbox.svg" },
+          ],
+        },
+        {
+          id: 11,
+          title: "South of Midnight",
+          imageUrl: "/covers/south-of-midnight.jpg",
+          releaseDate: "August 25, 2025",
+          myscore: null,
+          metascore: 77,
+          topPick: false,
+          added: true,
+          bookmarked: false,
+          favorite: false,
+          link: "#",
+          platforms: [
+            { name: "Windows", icon: "/icons/windows.svg" },
+            { name: "Xbox", icon: "/icons/xbox.svg" },
+          ],
+        },
+        {
+          id: 16,
+          title: "The Last of Us Part 1",
+          imageUrl: "/covers/the-last-of-us.jpg",
+          releaseDate: "May 20, 2026",
+          myscore: 10,
+          metascore: 95,
+          topPick: true,
+          added: true,
+          bookmarked: true,
+          favorite: true,
+          link: "#",
+          platforms: [
+            { name: "Windows", icon: "/icons/windows.svg" },
+            { name: "PlayStation", icon: "/icons/playstation.svg" },
+          ],
+        },
       ],
     },
   ];

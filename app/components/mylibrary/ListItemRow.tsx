@@ -25,7 +25,7 @@ export interface ListProps {
   onToggle?: () => void;
 }
 
-export default function List({
+export default function ListItemRow({
   title,
   createdDate,
   fullViewUrl,
@@ -148,7 +148,7 @@ export function CollapsibleContent({
         >
           {games.length >= 1 ? (
             <GamesGrid>
-              {games.map((game) => (
+              {games.slice(0, 10).map((game) => (
                 <motion.div key={game.id} variants={cardVariants}>
                   <GameCard
                     game={game}
@@ -181,7 +181,7 @@ export function CollapsibleContent({
           <div
             className={`flex gap-2 py-2 pb-4 sm:gap-4 2xl:gap-3.5 ${games.length === 10 && "justify-between"}`}
           >
-            {games.map((game) => (
+            {games.slice(0, 10).map((game) => (
               <motion.div
                 key={game.id}
                 variants={cardVariants}

@@ -13,21 +13,31 @@ interface ReviewFiltersProps {
   popLayout?: boolean;
   className?: string;
   crossButton?: boolean;
+  selectButtonContainerClass?: string;
+  selectButtonClass?: string;
 }
 
 export default function SelectFilters({
   filters,
-  popLayout = false,
   className,
+  selectButtonContainerClass,
+  selectButtonClass,
+  popLayout = false,
   crossButton = false,
 }: ReviewFiltersProps) {
   const { selectedFilters, handleChange, handleReset } = useSelectedFilters(filters);
 
   return (
     <div className={cn("flex flex-col items-start gap-5", className)}>
-      <div className="flex w-full flex-col items-center gap-4 md:flex-row">
+      <div
+        className={cn(
+          "flex w-full flex-col items-center gap-3 md:flex-row",
+          selectButtonContainerClass
+        )}
+      >
         {filters.map((filter) => (
           <SelectInput
+            className={selectButtonClass}
             key={filter.id}
             id={filter.id}
             placeholder={filter.placeholder}

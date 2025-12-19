@@ -19,7 +19,7 @@ export default function ShareButton({ className, onToggle }: ShareButtonProps) {
       variant="outline"
       aria-label="Share Button"
       className={cn(
-        "dark:bg-border-500 relative h-auto cursor-pointer overflow-hidden transition-all duration-300 ease-in-out",
+        "dark:bg-border-500 dark:border-border-300 relative h-auto cursor-pointer overflow-hidden transition-all duration-300 ease-in-out",
         className
       )}
     >

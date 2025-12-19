@@ -10,7 +10,7 @@ interface FavoriteButtonProps {
   onToggle?: (isFavorite: boolean) => void;
   initialState?: boolean;
   iconOnly?: boolean;
-  titleText?: string;
+  titleText?: { mark: string; unMark: string };
 }
 
 const FavoriteButton = ({
@@ -33,11 +33,11 @@ const FavoriteButton = ({
       variant="outline"
       onClick={handleClick}
       className={cn(
-        "dark:bg-border-500 h-auto shrink-1 cursor-pointer gap-2.5 rounded-lg text-white",
+        "dark:bg-border-500 dark:border-border-300 h-auto shrink-1 cursor-pointer gap-2.5 rounded-lg text-white",
         className
       )}
       aria-label="Favorite Button"
-      title={titleText}
+      title={titleText ? (isFavorite ? titleText.unMark : titleText.mark) : undefined}
     >
       <motion.svg
         width={25}

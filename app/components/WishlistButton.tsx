@@ -33,7 +33,7 @@ export default function WishlistButton({
       variant="outline"
       aria-label="Wishlist Button"
       className={cn(
-        "dark:bg-surface-500 relative h-auto cursor-pointer overflow-hidden transition-all duration-300 ease-in-out dark:hover:bg-zinc-800",
+        "dark:bg-surface-500 dark:border-border-300 relative h-auto cursor-pointer overflow-hidden transition-all duration-300 ease-in-out dark:hover:bg-zinc-800",
         isWishlisted ? "w-32" : "w-40",
         transparent && "dark:bg-border-500 dark:hover:bg-input/50",
         className

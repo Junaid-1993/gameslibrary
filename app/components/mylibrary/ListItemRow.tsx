@@ -15,9 +15,17 @@ import ActionButton from "./ActionButton";
 import CollapseButton from "./CollapseButton";
 import ListContentMenu from "./ListContentMenu";
 
+const actionButtons = [
+  { title: "Edit List", Icon: <SquarePen color="#818793" className="size-5" /> },
+  { title: "Pin List", Icon: <Pin color="#818793" className="size-5" /> },
+  { title: "Duplicate List", Icon: <Copy color="#818793" className="size-5" /> },
+  { title: "Delete List", Icon: <Trash2 color="#EF4444" className="size-5" /> },
+];
+
 export interface ListProps {
   id: number;
   title: string;
+  description: string;
   createdDate: string;
   fullViewUrl: string;
   games: Game[];
@@ -35,12 +43,6 @@ export default function ListItemRow({
 }: ListProps) {
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const actionButtons = [
-    { title: "Edit List", Icon: <SquarePen color="#818793" className="size-5" /> },
-    { title: "Pin List", Icon: <Pin color="#818793" className="size-5" /> },
-    { title: "Duplicate List", Icon: <Copy color="#818793" className="size-5" /> },
-    { title: "Delete List", Icon: <Trash2 color="#EF4444" className="size-5" /> },
-  ];
   return (
     <section className="border-border-400 grid gap-6 rounded-xl border px-3 py-3 sm:gap-8 sm:px-5 sm:py-4 xl:gap-10">
       <div className="grid gap-5">
@@ -125,7 +127,7 @@ const cardVariants = {
   exit: { opacity: 0, y: -10, transition: { duration: 0.2 } },
 };
 
-export function CollapsibleContent({
+function CollapsibleContent({
   games,
   collapsed,
   whileAnimating,
@@ -150,12 +152,7 @@ export function CollapsibleContent({
             <GamesGrid>
               {games.slice(0, 10).map((game) => (
                 <motion.div key={game.id} variants={cardVariants}>
-                  <GameCard
-                    game={game}
-                    shouldRenderWishlistComponent={false}
-                    renderedIn="List"
-                    hasActionMenu
-                  />
+                  <GameCard game={game} renderedIn="List" hasActionMenu />
                 </motion.div>
               ))}
             </GamesGrid>

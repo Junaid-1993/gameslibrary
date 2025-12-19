@@ -34,7 +34,7 @@ export default function AddToListButton({
       variant="outline"
       aria-label="Add to list Button"
       className={cn(
-        "dark:bg-border-500 relative h-auto cursor-pointer overflow-hidden transition-all duration-300 ease-in-out",
+        "dark:bg-border-500 dark:border-border-300 relative h-auto cursor-pointer overflow-hidden transition-all duration-300 ease-in-out",
         isAdded ? "w-[115px]" : "w-[143px]",
         className
       )}

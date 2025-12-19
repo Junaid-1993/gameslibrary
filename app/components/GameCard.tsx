@@ -1,4 +1,10 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { GripVertical, Square, SquareCheck } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
+import { useState } from "react";
 import { Game } from "../types/Game";
 import AddToListButton from "./AddToListButton";
 import BookmarkButton from "./BookmarkButton";
@@ -16,24 +22,70 @@ interface GameCardProps {
   renderedIn?: "List" | "Wishlist" | "Favorites";
   shouldRenderWishlistComponent?: boolean;
   hasActionMenu?: boolean;
+  fullListAction?: "bulk" | "arrange";
 }
 
 export default function GameCard({
   game,
   renderedIn,
+  fullListAction,
   shouldRenderWishlistComponent = true,
   hasActionMenu = false,
 }: GameCardProps) {
+  const [selected, setSelected] = useState(false);
   return (
     <article className="bg-surface-500 flex max-w-80 flex-col gap-3 rounded-lg p-2 transition-[background-color] duration-300 ease-in-out hover:bg-[#28292A]/80 md:gap-5 md:p-3 xl:gap-4 xl:py-3.5">
       <div className="relative">
         {shouldRenderWishlistComponent && <BookmarkButton initialState={game.bookmarked} />}
 
         {hasActionMenu && (
-          <div className="absolute top-1 right-1 sm:top-2 sm:right-2">
-            <DropdownActionMenu className="dark:bg-border-500 dark:hover:bg-border-500/90 h-9 w-9 rounded-full shadow-2xl md:h-10 md:w-10">
-              <ListGameCardContentMenu />
-            </DropdownActionMenu>
+          <div className="absolute top-1 right-1 md:top-2 md:right-2">
+            <AnimatePresence mode="wait" initial={false}>
+              {fullListAction === "bulk" ? (
+                <motion.div
+                  key="bulk"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  <Button
+                    className="dark:bg-border-500 dark:hover:bg-border-500/90 h-9 w-9 cursor-pointer rounded-lg shadow-2xl has-[>svg]:p-1 md:h-auto md:w-auto"
+                    onClick={() => setSelected(!selected)}
+                  >
+                    {selected ? (
+                      <SquareCheck color="#fff" className="size-7 md:size-8" />
+                    ) : (
+                      <Square color="#fff" className="size-7 md:size-8" />
+                    )}
+                  </Button>
+                </motion.div>
+              ) : fullListAction === "arrange" ? (
+                <motion.div
+                  key="arrange"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  <Button className="dark:bg-border-500 dark:hover:bg-border-500/90 h-auto w-auto cursor-grab rounded-lg shadow-2xl has-[>svg]:px-0.75 has-[>svg]:py-1.5">
+                    <GripVertical color="#fff" className="size-6.5 md:size-7.5" />
+                  </Button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  <DropdownActionMenu className="dark:bg-border-500 dark:hover:bg-border-500/90 h-9 w-9 rounded-full shadow-2xl md:h-10 md:w-10">
+                    <ListGameCardContentMenu />
+                  </DropdownActionMenu>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         )}
 
@@ -93,7 +145,9 @@ export default function GameCard({
         />
 
         <FavoriteButton
-          titleText={renderedIn ? "Mark as Favorite" : undefined}
+          titleText={
+            renderedIn ? { mark: "Mark as Favorite", unMark: "Remove from Favorites" } : undefined
+          }
           iconOnly={renderedIn && false}
           initialState={game.favorite}
           className={`${renderedIn ? "order-1 w-1/2 md:w-fit" : "w-full xl:w-[46%]"} xl:has-[>svg]:px-2.5`}

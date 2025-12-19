@@ -11,8 +11,29 @@ import SearchInput from "@/app/components/SearchInput";
 import { AnimatePresence, motion, Variants } from "motion/react";
 import { useState } from "react";
 
+export const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15 },
+  },
+  exit: { opacity: 0 },
+};
+
+export const listItemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut" } },
+  exit: { opacity: 0, y: -20, transition: { duration: 0.2, ease: "easeIn" } },
+};
+
+export const gridItemVariants: Variants = {
+  hidden: { opacity: 0, x: -20 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.3, ease: "easeOut" } },
+  exit: { opacity: 0, x: 20, transition: { duration: 0.2, ease: "easeIn" } },
+};
+
 export default function ListsSection({ lists }: { lists: ListProps[] }) {
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("list");
 
   // Track collapse state for each list by id
   const [collapsedLists, setCollapsedLists] = useState<Record<string, boolean>>({});
@@ -39,27 +60,6 @@ export default function ListsSection({ lists }: { lists: ListProps[] }) {
   };
 
   const hasLists = lists.length >= 1;
-
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 },
-    },
-    exit: { opacity: 0 },
-  };
-
-  const listItemVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut" } },
-    exit: { opacity: 0, y: -20, transition: { duration: 0.2, ease: "easeIn" } },
-  };
-
-  const gridItemVariants: Variants = {
-    hidden: { opacity: 0, x: -20 },
-    show: { opacity: 1, x: 0, transition: { duration: 0.3, ease: "easeOut" } },
-    exit: { opacity: 0, x: 20, transition: { duration: 0.2, ease: "easeIn" } },
-  };
 
   return (
     <section className="grid gap-6 md:gap-8">

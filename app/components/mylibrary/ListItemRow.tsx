@@ -1,7 +1,9 @@
 "use client";
 
+import { useListActions } from "@/app/hooks/useListActions";
+import { listActionUI } from "@/app/mylibrary/_actions/ListActionsUI";
+import { getListActionLogic } from "@/app/mylibrary/_actions/listActionLogic";
 import { Game } from "@/app/types/Game";
-import { Copy, Pin, SquarePen, Trash2 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useState } from "react";
@@ -13,14 +15,8 @@ import GamesGrid from "../GamesGrid";
 import LinkWithArrow from "../LinkWithArrow";
 import ActionButton from "./ActionButton";
 import CollapseButton from "./CollapseButton";
-import ListContentMenu from "./ListContentMenu";
-
-const actionButtons = [
-  { title: "Edit List", Icon: <SquarePen color="#818793" className="size-5" /> },
-  { title: "Pin List", Icon: <Pin color="#818793" className="size-5" /> },
-  { title: "Duplicate List", Icon: <Copy color="#818793" className="size-5" /> },
-  { title: "Delete List", Icon: <Trash2 color="#EF4444" className="size-5" /> },
-];
+import ListContextMenu from "./ListContentMenu";
+import PinButton from "./PinButton";
 
 export interface ListProps {
   id: number;
@@ -28,12 +24,14 @@ export interface ListProps {
   description: string;
   createdDate: string;
   fullViewUrl: string;
+  pinned: boolean;
   games: Game[];
   collapsed?: boolean;
   onToggle?: () => void;
 }
 
 export default function ListItemRow({
+  id,
   title,
   createdDate,
   fullViewUrl,
@@ -42,6 +40,15 @@ export default function ListItemRow({
   onToggle,
 }: ListProps) {
   const [isAnimating, setIsAnimating] = useState(false);
+  const { pinned, handleEdit, handlePin, handleDuplicate, handleDelete, handleShare } =
+    useListActions(id);
+
+  const listActionHandlers = getListActionLogic({
+    onEdit: handleEdit,
+    onDuplicate: handleDuplicate,
+    onDelete: handleDelete,
+    onShare: handleShare,
+  });
 
   return (
     <section className="border-border-400 grid gap-6 rounded-xl border px-3 py-3 sm:gap-8 sm:px-5 sm:py-4 xl:gap-10">
@@ -55,11 +62,16 @@ export default function ListItemRow({
           </div>
           <div className="flex items-center gap-2">
             <div className="hidden lg:flex lg:items-center lg:gap-2">
-              {actionButtons.map((action, id) => (
-                <ActionButton key={id} title={action.title}>
-                  {action.Icon}
-                </ActionButton>
-              ))}
+              {listActionUI.map((ui) => {
+                const action = listActionHandlers.find((action) => action.key === ui.key);
+                return ui.key === "pin" ? (
+                  <PinButton key={ui.key} pinned={pinned} setPinned={handlePin} />
+                ) : ui.key === "share" ? null : (
+                  <ActionButton key={ui.key} onClick={action?.handler} title={ui.title || ""}>
+                    {ui.Icon}
+                  </ActionButton>
+                );
+              })}
             </div>
             <CollapseButton
               singleChevron
@@ -69,7 +81,13 @@ export default function ListItemRow({
             />
             <div className="lg:hidden">
               <DropdownActionMenu>
-                <ListContentMenu />
+                <ListContextMenu
+                  pinned={pinned}
+                  setPinned={handlePin}
+                  onEdit={handleEdit}
+                  onDuplicate={handleDuplicate}
+                  onDelete={handleDelete}
+                />
               </DropdownActionMenu>
             </div>
           </div>

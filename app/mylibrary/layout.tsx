@@ -1,4 +1,10 @@
+import { ListProps } from "@/app/components/mylibrary/ListItemRow";
+import Lists from "@/app/data/lists.json";
+import ListItemGrid from "../components/mylibrary/ListItemGrid";
 import MyLibraryNavLinks from "../components/mylibrary/MyLibraryNavLinks";
+
+// Later we will fetch the pinned lists from the database:
+const pinnedLists: ListProps[] = Lists.filter((list) => list.pinned);
 
 export default function MyLibraryLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -17,17 +23,27 @@ export default function MyLibraryLayout({ children }: { children: React.ReactNod
         <div className="flex flex-col gap-8">
           <div className="flex items-baseline gap-3.5 pt-[0.413rem] md:gap-5">
             <h3 className="font-space-grotesk text-lg xl:text-xl">Pinned Lists</h3>
-            <p className="text-secondary text-sm lg:text-base">0 Lists</p>
+            <p className="text-secondary text-sm lg:text-base">{pinnedLists.length} Lists</p>
           </div>
 
-          <div className="grid gap-2 text-center">
-            <h4 className="font-space-grotesk xl:text-lg">
-              You haven&apos;t pinned any lists yet.
-            </h4>
-            <p className="text-secondary">
-              Pin your most important lists to access them here easily.
-            </p>
-          </div>
+          {pinnedLists.length >= 1 ? (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 md:gap-3 lg:grid-cols-4 xl:grid-cols-5 2xl:gap-5">
+              {pinnedLists.map((list) => (
+                <div key={list.id}>
+                  <ListItemGrid {...list} pinnedList />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid gap-2 text-center">
+              <h4 className="font-space-grotesk xl:text-lg">
+                You haven&apos;t pinned any lists yet.
+              </h4>
+              <p className="text-secondary">
+                Pin your most important lists to access them here easily.
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="mt-4">

@@ -2,6 +2,9 @@
 
 import { ListProps } from "@/app/components/mylibrary/ListItemRow";
 import Lists from "@/app/data/lists.json";
+import { useListActions } from "@/app/hooks/useListActions";
+import { listActionUI } from "@/app/mylibrary/_actions/ListActionsUI";
+import { getListActionLogic } from "@/app/mylibrary/_actions/listActionLogic";
 import {
   containerVariants,
   gridItemVariants,
@@ -14,12 +17,8 @@ import {
   Delete,
   GripVertical,
   Layers,
-  Pin,
   RotateCcw,
   Save,
-  Share2,
-  SquarePen,
-  Trash2,
   X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -32,16 +31,10 @@ import LinkWithArrow from "../LinkWithArrow";
 import SearchInput from "../SearchInput";
 import ActionButton from "./ActionButton";
 import FullWidthGameCard from "./FullWidthGameCard";
-import ListContentMenu from "./ListContentMenu";
+import ListContextMenu from "./ListContentMenu";
 import ListsFilter from "./ListsFilter";
+import PinButton from "./PinButton";
 import ViewSwitchButtons from "./ViewSwitchButtons";
-
-const actionButtons = [
-  { title: "Edit List", Icon: <SquarePen color="#818793" className="size-5" /> },
-  { title: "Pin List", Icon: <Pin color="#818793" className="size-5" /> },
-  { title: "Delete List", Icon: <Trash2 color="#EF4444" className="size-5" /> },
-  { title: "Share List", Icon: <Share2 fill="#4C9AFF" color="#4C9AFF" className="size-5" /> },
-];
 
 export default function FullListView({ id }: { id: string }) {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -50,6 +43,16 @@ export default function FullListView({ id }: { id: string }) {
   // Later we will fetch list form database.
   const matchTitle = id.split("-").join(" ").toLowerCase();
   const list: ListProps = Lists.filter((list) => list.title.toLowerCase() === matchTitle)[0];
+
+  const { pinned, handleEdit, handlePin, handleDuplicate, handleDelete, handleShare } =
+    useListActions(list.id);
+
+  const listActionHandlers = getListActionLogic({
+    onEdit: handleEdit,
+    onDuplicate: handleDuplicate,
+    onDelete: handleDelete,
+    onShare: handleShare,
+  });
 
   return (
     <AnimateChangeInHeight className="border-border-400 rounded-xl border">
@@ -64,11 +67,16 @@ export default function FullListView({ id }: { id: string }) {
             </div>
             <div className="flex items-center gap-4">
               <div className="hidden lg:flex lg:items-center lg:gap-2">
-                {actionButtons.map((action, id) => (
-                  <ActionButton key={id} title={action.title}>
-                    {action.Icon}
-                  </ActionButton>
-                ))}
+                {listActionUI.map((ui) => {
+                  const action = listActionHandlers.find((action) => action.key === ui.key);
+                  return ui.key === "pin" ? (
+                    <PinButton key={ui.key} pinned={pinned} setPinned={handlePin} />
+                  ) : ui.key === "duplicate" ? null : (
+                    <ActionButton key={ui.key} onClick={action?.handler} title={ui.title || ""}>
+                      {ui.Icon}
+                    </ActionButton>
+                  );
+                })}
               </div>
               <div className="flex items-center gap-2">
                 <ViewSwitchButtons
@@ -77,7 +85,14 @@ export default function FullListView({ id }: { id: string }) {
                 />
                 <div className="lg:hidden">
                   <DropdownActionMenu className="h-10 md:h-11">
-                    <ListContentMenu />
+                    <ListContextMenu
+                      pinned={pinned}
+                      renderShare
+                      setPinned={handlePin}
+                      onEdit={handleEdit}
+                      onShare={handleShare}
+                      onDelete={handleDelete}
+                    />
                   </DropdownActionMenu>
                 </div>
               </div>

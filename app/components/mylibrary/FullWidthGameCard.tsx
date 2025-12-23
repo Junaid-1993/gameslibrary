@@ -10,27 +10,21 @@ import FavoriteButton from "@/app/components/FavoriteButton";
 import ListGameCardContentMenu from "@/app/components/mylibrary/ListGameCardContextMenu";
 import StarRating from "@/app/components/StarRating";
 import TopPickBadge from "@/app/components/TopPickBadge";
-import { Game } from "@/app/types/Game";
 import { Button } from "@/components/ui/button";
-import { GripVertical, Square, SquareCheck } from "lucide-react";
+import { DropdownMenuGroup, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+import { GripVertical, Plus, Square, SquareCheck } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useState } from "react";
-
-interface GameCardProps {
-  game: Game;
-  renderedIn?: "List" | "Wishlist" | "Favorites";
-  shouldRenderWishlistComponent?: boolean;
-  hasActionMenu?: boolean;
-  fullListAction?: "bulk" | "arrange";
-}
+import { GameCardProps } from "../GameCard";
 
 export default function FullWidthGameCard({
   game,
   renderedIn,
   fullListAction,
   shouldRenderWishlistComponent = true,
-  hasActionMenu = false,
+  upcoming = false,
 }: GameCardProps) {
   const [selected, setSelected] = useState(false);
   return (
@@ -51,7 +45,9 @@ export default function FullWidthGameCard({
               alt={`${game.title} game cover`}
               width={180}
               height={280}
-              className="aspect-2/3 w-24 rounded-lg object-cover sm:w-32 md:w-36"
+              className={cn("aspect-2/3 w-24 rounded-lg object-cover sm:w-32 md:w-36", {
+                "w-28 sm:!w-40": upcoming,
+              })}
             />
           </div>
           <div className="flex w-full flex-col gap-2 p-3 pt-0 pr-0 sm:gap-3 sm:pt-2 sm:pr-3 sm:pl-4 lg:pt-3 lg:pl-5">
@@ -59,6 +55,7 @@ export default function FullWidthGameCard({
               <h1 className="font-space-grotesk line-clamp-1 font-medium md:text-lg lg:text-xl">
                 {game.title}
               </h1>
+              {upcoming && <span className="text-xs">Release Date: {game.releaseDate}</span>}
             </div>
             <div className="flex items-center justify-between gap-1 sm:w-80 sm:gap-10">
               <div className="flex max-w-[96px] gap-1 overflow-hidden sm:max-w-max">
@@ -71,14 +68,20 @@ export default function FullWidthGameCard({
                 ))}
               </div>
 
-              {game.topPick && (
-                <TopPickBadge
-                  classes={{
-                    container: "w-fit",
-                    icon: "md:size-6 xl:size-[26px]",
-                  }}
-                  fullBadge
-                />
+              {upcoming ? (
+                <div className="flex items-center justify-center rounded-full bg-[#6A4407] px-3 py-1">
+                  <span className="text-[12px] md:text-sm">Upcoming</span>
+                </div>
+              ) : (
+                game.topPick && (
+                  <TopPickBadge
+                    classes={{
+                      container: "w-fit",
+                      icon: "md:size-6 xl:size-[26px]",
+                    }}
+                    fullBadge
+                  />
+                )
               )}
             </div>
             <div className="flex flex-col items-start justify-between gap-1 sm:w-80 sm:flex-row sm:gap-10">
@@ -168,7 +171,16 @@ export default function FullWidthGameCard({
                 transition={{ duration: 0.25 }}
               >
                 <DropdownActionMenu className="dark:bg-border-500 dark:hover:bg-border-500/90 h-9 w-9 rounded-full shadow-2xl md:h-10 md:w-10">
-                  <ListGameCardContentMenu />
+                  {renderedIn === "Wishlist" || renderedIn === "Favorites" ? (
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem>
+                        <Plus color="#fff" className="size-5" />
+                        Add to List
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  ) : (
+                    <ListGameCardContentMenu />
+                  )}
                 </DropdownActionMenu>
               </motion.div>
             )}

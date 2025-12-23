@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { GripVertical, Square, SquareCheck } from "lucide-react";
+import { GripVertical, Square, SquareCheck, Plus } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useState } from "react";
@@ -16,13 +16,15 @@ import ListGameCardContentMenu from "./mylibrary/ListGameCardContextMenu";
 import PlatformIcon from "./PlatformIcon";
 import StarRating from "./StarRating";
 import TopPickBadge from "./TopPickBadge";
+import { DropdownMenuGroup, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
-interface GameCardProps {
+export interface GameCardProps {
   game: Game;
   renderedIn?: "List" | "Wishlist" | "Favorites";
   shouldRenderWishlistComponent?: boolean;
   hasActionMenu?: boolean;
   fullListAction?: "bulk" | "arrange";
+  upcoming?: boolean;
 }
 
 export default function GameCard({
@@ -31,6 +33,7 @@ export default function GameCard({
   fullListAction,
   shouldRenderWishlistComponent = true,
   hasActionMenu = false,
+  upcoming = false,
 }: GameCardProps) {
   const [selected, setSelected] = useState(false);
   return (
@@ -81,7 +84,16 @@ export default function GameCard({
                   transition={{ duration: 0.25 }}
                 >
                   <DropdownActionMenu className="dark:bg-border-500 dark:hover:bg-border-500/90 h-9 w-9 rounded-full shadow-2xl md:h-10 md:w-10">
-                    <ListGameCardContentMenu />
+                    {renderedIn === "Wishlist" || renderedIn === "Favorites" ? (
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem>
+                          <Plus color="#fff" className="size-5" />
+                          Add to List
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                    ) : (
+                      <ListGameCardContentMenu />
+                    )}
                   </DropdownActionMenu>
                 </motion.div>
               )}
@@ -97,18 +109,27 @@ export default function GameCard({
           className="aspect-2/3 w-full rounded-lg object-cover"
         />
 
-        {game.topPick && (
-          <TopPickBadge
-            classes={{
-              container: `absolute ${shouldRenderWishlistComponent ? "bottom-3 left-2" : "top-2 left-1 sm:left-2"} `,
-              icon: "md:size-6 xl:size-[26px]",
-            }}
-            fullBadge
-          />
+        {upcoming ? (
+          <div className="absolute top-2 left-1 flex items-center justify-center rounded-full bg-[#6A4407] px-3 py-1 sm:left-2">
+            <span className="text-[12px] md:text-sm">Upcoming</span>
+          </div>
+        ) : (
+          game.topPick && (
+            <TopPickBadge
+              classes={{
+                container: `absolute ${shouldRenderWishlistComponent ? "bottom-3 left-2" : "top-2 left-1 sm:left-2"} `,
+                icon: "md:size-6 xl:size-[26px]",
+              }}
+              fullBadge
+            />
+          )
         )}
       </div>
       <div className="flex flex-col gap-3 md:gap-4 xl:gap-5">
-        <h1 className="font-space-grotesk line-clamp-1 font-medium md:text-lg">{game.title}</h1>
+        <div>
+          <h1 className="font-space-grotesk line-clamp-1 font-medium md:text-lg">{game.title}</h1>
+          {upcoming && <span className="text-xs">Release Date: {game.releaseDate}</span>}
+        </div>
 
         <div className="flex flex-col gap-3 md:gap-3.5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex gap-1">

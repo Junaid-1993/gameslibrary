@@ -7,22 +7,22 @@ import FullWidthGameCard from "@/app/components/mylibrary/FullWidthGameCard";
 import ListsFilter from "@/app/components/mylibrary/ListsFilter";
 import ViewSwitchButtons from "@/app/components/mylibrary/ViewSwitchButtons";
 import SearchInput from "@/app/components/SearchInput";
+import { Game } from "@/app/types/Game";
+import { AnimatePresence, motion } from "motion/react";
+import { useState } from "react";
 import {
   containerVariants,
   gridItemVariants,
   listItemVariants,
 } from "@/app/mylibrary/lists/ListsSection";
-import { Game } from "@/app/types/Game";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Globe } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
-import Link from "next/link";
-import { useState } from "react";
 
-export default function WishListSection({ wishlistGames }: { wishlistGames: Game[] }) {
+export default function FavoritesSection({ favoriteGames }: { favoriteGames: Game[] }) {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
-  const hasWishlist = wishlistGames.length >= 1;
+  const hasFavorites = favoriteGames.length >= 1;
 
   return (
     <section className="grid gap-6 md:gap-8">
@@ -46,12 +46,12 @@ export default function WishListSection({ wishlistGames }: { wishlistGames: Game
       </div>
 
       <motion.div layout="position">
-        {hasWishlist && (
+        {hasFavorites && (
           <div className="mb-4">
-            <p className="text-secondary">Wishlisted Titles: {wishlistGames.length}</p>
+            <p className="text-secondary">Favorite Titles: {favoriteGames.length}</p>
           </div>
         )}
-        {hasWishlist ? (
+        {hasFavorites ? (
           <AnimatePresence mode="wait">
             {viewMode === "grid" ? (
               <motion.section
@@ -62,15 +62,9 @@ export default function WishListSection({ wishlistGames }: { wishlistGames: Game
                 exit="exit"
               >
                 <GamesGrid>
-                  {wishlistGames.map((game) => (
+                  {favoriteGames.map((game) => (
                     <motion.div key={game.id} variants={gridItemVariants}>
-                      <GameCard
-                        game={game}
-                        renderedIn="Wishlist"
-                        hasActionMenu
-                        shouldRenderWishlistComponent={false}
-                        upcoming
-                      />
+                      <GameCard game={game} renderedIn="Favorites" hasActionMenu />
                     </motion.div>
                   ))}
                 </GamesGrid>
@@ -84,14 +78,9 @@ export default function WishListSection({ wishlistGames }: { wishlistGames: Game
                 exit="exit"
                 className="flex flex-col gap-6"
               >
-                {wishlistGames.map((game) => (
+                {favoriteGames.map((game) => (
                   <motion.div key={game.id} variants={listItemVariants}>
-                    <FullWidthGameCard
-                      game={game}
-                      renderedIn="Wishlist"
-                      shouldRenderWishlistComponent={false}
-                      upcoming
-                    />
+                    <FullWidthGameCard game={game} renderedIn="Favorites" />
                   </motion.div>
                 ))}
               </motion.section>
@@ -100,8 +89,8 @@ export default function WishListSection({ wishlistGames }: { wishlistGames: Game
         ) : (
           <div className="flex flex-col items-center">
             <ContentNotFound
-              title="No Wishlist Yet"
-              description="Your wishlist is empty. Start adding games you're excited about and keep track of them here."
+              title="No Favorites Yet"
+              description="You haven't marked any games as favorites. Add your top picks to find them faster."
               className="mt-6"
             />
             <Link href="/browsegames">

@@ -107,7 +107,7 @@ export default function FullWidthGameCard({
                   }
                   iconOnly={renderedIn && false}
                   initialState={game.favorite}
-                  className="dark:border-border-300 w-fit xl:has-[>svg]:px-2.5"
+                  className={`dark:border-border-300 w-fit xl:has-[>svg]:px-2.5 ${renderedIn === "Favorites" && "pointer-events-none"}`}
                 />
                 <AddToListButton
                   title={renderedIn ? renderedIn : undefined}

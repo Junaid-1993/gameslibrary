@@ -67,7 +67,7 @@ export default function ListsSection({ lists }: { lists: ListProps[] }) {
         <div className="w-full md:w-96">
           <SearchInput placeholder="Search Your Lists..." />
         </div>
-        <div className="grid grid-cols-[1fr_auto] gap-x-2 gap-y-4 sm:grid-cols-[auto_1fr_auto] md:flex md:justify-end">
+        <div className="grid grid-cols-[1fr_auto] gap-x-2 gap-y-4 min-[1074px]:mt-0.5 sm:grid-cols-[auto_1fr_auto] md:flex md:justify-end">
           <div className="mt-0.5 mb-0 md:mb-0 lg:mr-2">
             <CreateButton title="Create New List" className="w-full lg:w-fit" />
           </div>
@@ -90,7 +90,7 @@ export default function ListsSection({ lists }: { lists: ListProps[] }) {
         </div>
       </div>
 
-      <motion.div layout>
+      <motion.div layout="position">
         {hasLists && (
           <div className="mb-4">
             <p className="text-secondary">Total numbers of Lists: {lists.length}</p>
@@ -137,7 +137,7 @@ export default function ListsSection({ lists }: { lists: ListProps[] }) {
         ) : (
           <ContentNotFound
             title="No Lists Found"
-            description="It looks like you haven't created any game lists yet."
+            description="You haven't created any lists yet. Start building your library by organizing your favorite games."
             buttonTitle="Create Your First List"
             className="mt-6"
           />

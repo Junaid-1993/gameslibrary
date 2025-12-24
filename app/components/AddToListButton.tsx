@@ -46,7 +46,13 @@ export default function AddToListButton({
             <ListCross />
           </div>
           <span className="hidden text-sm font-medium whitespace-nowrap md:inline">
-            Remove <span className="hidden xl:inline">from {title}</span>
+            {title === "Wishlist" ? (
+              <span className="hidden md:inline">Unwishlist</span>
+            ) : title === "Favorites" ? (
+              <span className="hidden md:inline">Unfavorite</span>
+            ) : (
+              <>Remove {<span className="hidden xl:inline">from {title}</span>}</>
+            )}
           </span>
         </div>
       ) : (

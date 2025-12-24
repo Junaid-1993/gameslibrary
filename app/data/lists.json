@@ -52,7 +52,7 @@
         "topPick": true,
         "added": true,
         "bookmarked": true,
-        "favorite": false,
+        "favorite": true,
         "link": "#",
         "platforms": [
           { "name": "Windows", "icon": "/icons/windows.svg" },

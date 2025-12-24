@@ -171,7 +171,7 @@ export default function GameCard({
           }
           iconOnly={renderedIn && false}
           initialState={game.favorite}
-          className={`${renderedIn ? "order-1 w-1/2 md:w-fit" : "w-full xl:w-[46%]"} xl:has-[>svg]:px-2.5`}
+          className={`${renderedIn ? "order-1 w-1/2 md:w-fit" : "w-full xl:w-[46%]"} xl:has-[>svg]:px-2.5 ${renderedIn === "Favorites" && "pointer-events-none"}`}
         />
       </div>
     </article>

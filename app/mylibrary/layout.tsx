@@ -4,12 +4,20 @@ import ListItemGrid from "../components/mylibrary/ListItemGrid";
 import MyLibraryNavLinks from "../components/mylibrary/MyLibraryNavLinks";
 import { Game } from "../types/Game";
 
-// Later we will fetch the pinned lists from the database:
+// Later we will fetch the pinned lists, wishlistGames and favoriteGames from the database:
 const allLists: ListProps[] = Lists;
 const pinnedLists: ListProps[] = Lists.filter((list) => list.pinned);
 const wishlistGames: Game[] = Array.from(
   new Map(
     Lists.flatMap((list) => list.games.filter((game) => game.bookmarked)).map((game) => [
+      game.title,
+      game,
+    ])
+  ).values()
+);
+const favoriteGames: Game[] = Array.from(
+  new Map(
+    Lists.flatMap((list) => list.games.filter((game) => game.favorite)).map((game) => [
       game.title,
       game,
     ])
@@ -61,7 +69,7 @@ export default function MyLibraryLayout({ children }: { children: React.ReactNod
             userLibraryData={{
               lists: allLists.length,
               wishlist: wishlistGames.length,
-              favorites: 0,
+              favorites: favoriteGames.length,
             }}
           />
         </div>

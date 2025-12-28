@@ -33,6 +33,7 @@
   --color-border-500: var(--border-500);
   --color-success-500: var(--success-500);
   --color-success-800: var(--success-800);
+  --color-success-900: var(--success-900);
   --color-disabled-800: var(--disabled-800);
   --color-danger-300: var(--danger-300);
   --color-warning-400: var(--warning-400);
@@ -133,6 +134,7 @@
   --border-500: #2a2a32;
   --success-500: #22c55e;
   --success-800: #136c34;
+  --success-900: #0e5327;
   --disabled-800: #3b3f46;
   --danger-300: #f48282;
   --warning-400: #fbd644;

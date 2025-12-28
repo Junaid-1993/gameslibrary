@@ -35,6 +35,7 @@ import ListContextMenu from "./ListContentMenu";
 import ListsFilter from "./ListsFilter";
 import PinButton from "./PinButton";
 import ViewSwitchButtons from "./ViewSwitchButtons";
+import ContentNotFound from "../ContentNotFound";
 
 export default function FullListView({ id }: { id: string }) {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -43,6 +44,7 @@ export default function FullListView({ id }: { id: string }) {
   // Later we will fetch list form database.
   const matchTitle = id.split("-").join(" ").toLowerCase();
   const list: ListProps = Lists.filter((list) => list.title.toLowerCase() === matchTitle)[0];
+  const hasGames = list.games.length >= 1;
 
   const { pinned, handleEdit, handlePin, handleDuplicate, handleDelete, handleShare } =
     useListActions(list.id);
@@ -213,20 +215,42 @@ export default function FullListView({ id }: { id: string }) {
           </AnimatePresence>
         </div>
 
-        <motion.div layout>
-          <AnimatePresence mode="wait">
-            {viewMode === "grid" ? (
-              <motion.section
-                key="grid"
-                variants={containerVariants}
-                initial="hidden"
-                animate="show"
-                exit="exit"
-              >
-                <GamesGrid>
+        {hasGames ? (
+          <motion.div layout>
+            <AnimatePresence mode="wait">
+              {viewMode === "grid" ? (
+                <motion.section
+                  key="grid"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="show"
+                  exit="exit"
+                >
+                  <GamesGrid>
+                    {list.games.map((game) => (
+                      <motion.div key={game.id} variants={gridItemVariants}>
+                        <GameCard
+                          game={game}
+                          renderedIn="List"
+                          hasActionMenu
+                          fullListAction={action ? action : undefined}
+                        />
+                      </motion.div>
+                    ))}
+                  </GamesGrid>
+                </motion.section>
+              ) : (
+                <motion.section
+                  key="list"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="show"
+                  exit="exit"
+                  className="flex flex-col gap-6"
+                >
                   {list.games.map((game) => (
-                    <motion.div key={game.id} variants={gridItemVariants}>
-                      <GameCard
+                    <motion.div key={game.id} variants={listItemVariants}>
+                      <FullWidthGameCard
                         game={game}
                         renderedIn="List"
                         hasActionMenu
@@ -234,31 +258,20 @@ export default function FullListView({ id }: { id: string }) {
                       />
                     </motion.div>
                   ))}
-                </GamesGrid>
-              </motion.section>
-            ) : (
-              <motion.section
-                key="list"
-                variants={containerVariants}
-                initial="hidden"
-                animate="show"
-                exit="exit"
-                className="flex flex-col gap-6"
-              >
-                {list.games.map((game) => (
-                  <motion.div key={game.id} variants={listItemVariants}>
-                    <FullWidthGameCard
-                      game={game}
-                      renderedIn="List"
-                      hasActionMenu
-                      fullListAction={action ? action : undefined}
-                    />
-                  </motion.div>
-                ))}
-              </motion.section>
-            )}
-          </AnimatePresence>
-        </motion.div>
+                </motion.section>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        ) : (
+          <motion.div layout>
+            <ContentNotFound
+              title="This list is currently empty"
+              description="Start curating your personalized game collection by adding titles to this list."
+              buttonTitle="Add Game to List"
+              className="my-4"
+            />
+          </motion.div>
+        )}
 
         <motion.div
           className="border-border-400 flex items-center justify-between border-t pt-3 sm:pt-4"

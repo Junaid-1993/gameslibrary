@@ -196,21 +196,27 @@ function CollapsibleContent({
           <div
             className={`flex gap-2 py-2 pb-4 sm:gap-4 2xl:gap-3.5 ${games.length === 10 && "justify-between"}`}
           >
-            {games.slice(0, 10).map((game) => (
-              <motion.div
-                key={game.id}
-                variants={cardVariants}
-                className="relative h-36 w-24 flex-shrink-0 md:h-44 md:w-32"
-              >
-                <Image
-                  src={game.imageUrl}
-                  alt={`${game.title} cover`}
-                  fill
-                  className="rounded-md object-cover"
-                  title={game.title}
-                />
-              </motion.div>
-            ))}
+            {games.length >= 1 ? (
+              games.slice(0, 10).map((game) => (
+                <motion.div
+                  key={game.id}
+                  variants={cardVariants}
+                  className="relative h-36 w-24 flex-shrink-0 md:h-44 md:w-32"
+                >
+                  <Image
+                    src={game.imageUrl}
+                    alt={`${game.title} cover`}
+                    fill
+                    className="rounded-md object-cover"
+                    title={game.title}
+                  />
+                </motion.div>
+              ))
+            ) : (
+              <div className="w-full text-center">
+                <p>This list is currently empty.</p>
+              </div>
+            )}
           </div>
         </motion.div>
       )}

@@ -1,9 +1,14 @@
+import LinkWithArrow from "@/app/components/LinkWithArrow";
+import ListItemGrid from "@/app/components/mylibrary/ListItemGrid";
+import { ListProps } from "@/app/components/mylibrary/ListItemRow";
 import RecentActivityFeed from "@/app/components/profile/RecentActivityFeed";
 import { Activity } from "@/app/components/profile/RecentActivityItem";
 import StatsGrid from "@/app/components/profile/StatsGrid";
 import ShareButton from "@/app/components/ShareButton";
+import Lists from "@/app/data/lists.json";
+import { Game } from "@/app/types/Game";
 import { Badge } from "@/components/ui/badge";
-import { CalendarDays, Settings } from "lucide-react";
+import { CalendarDays, Heart, List, Settings } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,12 +29,25 @@ const activities: Activity[] = [
   { type: "add_to_list", gameTitle: "Cuphead", listName: "Next to Play" },
   { type: "pin_list", listName: "Next to Play" },
   { type: "entry", gameTitle: "The witcher 3" },
-  { type: "wishlist", gameTitle: "Elden Ring" },
-  { type: "favorite", gameTitle: "The Witcher 3" },
-  // { type: "rating", gameTitle: "Cyberpunk 2077", rating: 4 },
+  // { type: "wishlist", gameTitle: "Elden Ring" },
+  // { type: "favorite", gameTitle: "The Witcher 3" },
+  { type: "rating", gameTitle: "Cyberpunk 2077", rating: 4 },
   // { type: "review", gameTitle: "Baldur's Gate 3" },
-  // { type: "create_list", listName: "RPG Classics" },
+  { type: "create_list", listName: "RPG Classics" },
 ];
+
+// Later we will fetch the lists from a database:
+const lists: ListProps[] = Lists;
+
+// Later we will fetch the favoriteGames from a database:
+const favoriteGames: Game[] = Array.from(
+  new Map(
+    Lists.flatMap((list) => list.games.filter((game) => game.favorite)).map((game) => [
+      game.title,
+      game,
+    ])
+  ).values()
+);
 
 export default function Page() {
   return (
@@ -100,6 +118,91 @@ export default function Page() {
 
           <div className="border-border-400 mt-4 rounded-lg border md:h-[352px] lg:mt-6 xl:h-[362px]">
             <RecentActivityFeed activities={activities} />
+          </div>
+        </section>
+      </div>
+
+      <div className="grid items-start gap-8 md:grid-cols-[1fr_300px] md:gap-4 lg:grid-cols-[1fr_350px] xl:gap-4 2xl:grid-cols-[1fr_450px] 2xl:gap-6">
+        <section className="md:self-stretch">
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="font-space-grotesk text-accent-400 text-lg font-medium lg:text-xl">
+              Your Lists
+            </h3>
+            <LinkWithArrow href="/mylibrary/lists" title="View All Lists" />
+          </div>
+          <div className="mt-6">
+            {lists.length >= 1 ? (
+              <div className="grid gap-4 md:grid-cols-2 md:gap-2 lg:gap-3 xl:grid-cols-3">
+                {lists.slice(0, 3).map((list, idx) => (
+                  <div className={idx === 2 ? "md:hidden xl:block" : ""} key={list.id}>
+                    <ListItemGrid key={list.id} {...list} profileList />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex h-[70%] items-center justify-center py-6">
+                <div className="flex flex-col items-center gap-2">
+                  <List color="#818793" className="size-8 2xl:size-9" />
+                  <p className="text-secondary text-sm 2xl:text-base">No Lists Yet.</p>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+        <section className="md:self-stretch">
+          <div className="border-border-400 grid h-full grid-rows-[1fr_auto] gap-4 rounded-lg border p-4 md:gap-6">
+            {favoriteGames.length >= 1 ? (
+              <div className="grid grid-cols-2 gap-4 2xl:grid-cols-[max-content_auto]">
+                {/* Left big cover */}
+                <div className="relative h-full w-full 2xl:w-[150px]">
+                  <Image
+                    src={favoriteGames[0].imageUrl}
+                    alt={`${favoriteGames[0].title} Game Cover`}
+                    fill
+                    className="rounded-md object-cover"
+                  />
+                </div>
+
+                {/* Right 4 or 6 smaller covers */}
+                <div className="grid grid-cols-2 grid-rows-2 gap-2 sm:gap-4 md:gap-2 2xl:grid-cols-3">
+                  {Array.from({ length: 6 }).map((_, idx) => {
+                    const game = favoriteGames[idx + 1]; // skip the first one (big cover)
+                    return game ? (
+                      <div
+                        className={`relative aspect-[2/3] w-full 2xl:h-[100px] 2xl:w-[78px] ${idx === 4 || idx === 5 ? "hidden 2xl:block" : ""}`}
+                        key={game.id}
+                      >
+                        <Image
+                          src={game.imageUrl}
+                          alt={`${game.title} Game Cover`}
+                          fill
+                          className="rounded-sm object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        key={`placeholder-${idx}`}
+                        className={`border-border-400 relative aspect-[2/3] w-full flex-shrink-0 rounded-sm border 2xl:h-[100px] 2xl:w-[78px] ${idx === 4 || idx === 5 ? "hidden 2xl:block" : ""}`}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center py-6">
+                <div className="flex flex-col items-center gap-2">
+                  <Heart color="#818793" className="size-8 2xl:size-9" />
+                  <p className="text-secondary text-sm 2xl:text-base">No Favorite Titles Yet.</p>
+                </div>
+              </div>
+            )}
+
+            <div className="flex items-center justify-between gap-2">
+              <h3 className="font-space-grotesk text-accent-400 text-lg font-medium lg:text-xl">
+                Favorites
+              </h3>
+              <LinkWithArrow href="/mylibrary/favorites" title="View All Favorites" />
+            </div>
           </div>
         </section>
       </div>

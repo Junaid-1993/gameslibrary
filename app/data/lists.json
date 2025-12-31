@@ -71,7 +71,7 @@
         "topPick": true,
         "added": true,
         "bookmarked": true,
-        "favorite": false,
+        "favorite": true,
         "link": "#",
         "platforms": [
           { "name": "Windows", "icon": "/icons/windows.svg" },
@@ -107,7 +107,7 @@
         "topPick": true,
         "added": true,
         "bookmarked": true,
-        "favorite": true,
+        "favorite": false,
         "link": "#",
         "platforms": [
           { "name": "Windows", "icon": "/icons/windows.svg" },
@@ -124,7 +124,7 @@
         "topPick": true,
         "added": true,
         "bookmarked": true,
-        "favorite": true,
+        "favorite": false,
         "link": "#",
         "platforms": [
           { "name": "Windows", "icon": "/icons/windows.svg" },
@@ -207,7 +207,7 @@
         "topPick": true,
         "added": true,
         "bookmarked": true,
-        "favorite": true,
+        "favorite": false,
         "link": "#",
         "platforms": [
           { "name": "Windows", "icon": "/icons/windows.svg" },
@@ -224,7 +224,7 @@
         "topPick": true,
         "added": true,
         "bookmarked": true,
-        "favorite": true,
+        "favorite": false,
         "link": "#",
         "platforms": [
           { "name": "Windows", "icon": "/icons/windows.svg" },
@@ -297,7 +297,7 @@
         "topPick": true,
         "added": true,
         "bookmarked": true,
-        "favorite": true,
+        "favorite": false,
         "link": "#",
         "platforms": [
           { "name": "Windows", "icon": "/icons/windows.svg" },
@@ -314,7 +314,7 @@
         "topPick": true,
         "added": true,
         "bookmarked": true,
-        "favorite": true,
+        "favorite": false,
         "link": "#",
         "platforms": [
           { "name": "Windows", "icon": "/icons/windows.svg" },
@@ -376,6 +376,25 @@
           { "name": "Windows", "icon": "/icons/windows.svg" },
           { "name": "Xbox", "icon": "/icons/xbox.svg" }
         ]
+      },
+      {
+        "id": 218,
+        "title": "Need For Speed: The Run",
+        "imageUrl": "/covers/need-for-speed-the-run.jpg",
+        "releaseDate": "September 16, 2018",
+        "myscore": 9,
+        "metascore": 88,
+        "topPick": true,
+        "added": false,
+        "bookmarked": false,
+        "favorite": true,
+        "link": "#",
+        "platforms": [
+          { "name": "Windows", "icon": "/icons/windows.svg" },
+          { "name": "PlayStation", "icon": "/icons/playstation.svg" },
+          { "name": "Xbox", "icon": "/icons/xbox.svg" },
+          { "name": "Nintendo", "icon": "/icons/nintendo.svg" }
+        ]
       }
     ]
   },
@@ -403,6 +422,24 @@
           { "name": "Windows", "icon": "/icons/windows.svg" },
           { "name": "Xbox", "icon": "/icons/xbox.svg" }
         ]
+      },
+      {
+        "id": 18,
+        "title": "Red Dead Redemption 2",
+        "imageUrl": "/covers/red-dead-redemption-2.jpg",
+        "releaseDate": "August 26, 2025",
+        "myscore": 9,
+        "metascore": 98,
+        "topPick": true,
+        "added": false,
+        "bookmarked": false,
+        "favorite": true,
+        "link": "#",
+        "platforms": [
+          { "name": "Windows", "icon": "/icons/windows.svg" },
+          { "name": "Xbox", "icon": "/icons/xbox.svg" },
+          { "name": "PlayStation", "icon": "/icons/playstation.svg" }
+        ]
       }
     ]
   },
@@ -424,7 +461,7 @@
         "topPick": true,
         "added": true,
         "bookmarked": true,
-        "favorite": true,
+        "favorite": false,
         "link": "#",
         "platforms": [
           { "name": "Windows", "icon": "/icons/windows.svg" },
@@ -459,7 +496,7 @@
         "topPick": true,
         "added": true,
         "bookmarked": true,
-        "favorite": true,
+        "favorite": false,
         "link": "#",
         "platforms": [
           { "name": "Windows", "icon": "/icons/windows.svg" },
@@ -486,7 +523,7 @@
         "topPick": true,
         "added": true,
         "bookmarked": true,
-        "favorite": true,
+        "favorite": false,
         "link": "#",
         "platforms": [
           { "name": "Windows", "icon": "/icons/windows.svg" },
@@ -504,7 +541,7 @@
         "topPick": true,
         "added": true,
         "bookmarked": true,
-        "favorite": true,
+        "favorite": false,
         "link": "#",
         "platforms": [
           { "name": "Windows", "icon": "/icons/windows.svg" },

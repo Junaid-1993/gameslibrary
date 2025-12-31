@@ -21,7 +21,8 @@ export default function ListItemGrid({
   fullViewUrl,
   games,
   pinnedList = false,
-}: ListProps & { pinnedList?: boolean }) {
+  profileList = false,
+}: ListProps & { pinnedList?: boolean; profileList?: boolean }) {
   const { pinned, handleEdit, handlePin, handleDuplicate, handleDelete } = useListActions(id);
   const router = useRouter();
 
@@ -29,11 +30,13 @@ export default function ListItemGrid({
     <section
       className={cn("bg-surface-500 grid gap-3 rounded-lg p-4 md:p-3 xl:p-4 2xl:p-5", {
         "gap-0 xl:gap-2": pinnedList,
+        "2xl:p-4": profileList,
       })}
     >
       <div
         className={cn("grid aspect-2/3 grid-cols-2 gap-x-3 gap-y-4", {
           "hidden lg:grid": pinnedList,
+          "aspect-24/8 grid-cols-4 gap-x-2": profileList,
         })}
       >
         {Array.from({ length: 4 }).map((_, i) => {
@@ -44,7 +47,7 @@ export default function ListItemGrid({
                 src={game.imageUrl}
                 alt={`${game.title} cover`}
                 fill
-                className="rounded-md object-cover"
+                className={cn("rounded-md object-cover", { "rounded-sm": profileList })}
                 title={game.title}
               />
             </div>
@@ -58,7 +61,7 @@ export default function ListItemGrid({
       </div>
 
       <div className="lg:pt-[0.413rem]">
-        {pinnedList ? (
+        {pinnedList || profileList ? (
           <Link href={fullViewUrl} className="underline-offset-3 hover:underline">
             <Title title={title} pinnedList />
           </Link>
@@ -78,16 +81,18 @@ export default function ListItemGrid({
             moreVerticalIcon
             pinnedListContextWidth={pinnedList}
           >
-            {pinnedList ? (
+            {pinnedList || profileList ? (
               <DropdownMenuGroup>
                 <DropdownMenuItem onSelect={() => router.push(`/mylibrary/${fullViewUrl}`)}>
                   <ArrowRight color="#4C9AFF" className="size-5" />
                   View Full List
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={handlePin}>
-                  <Trash2 color="#EF4444" className="size-5" />
-                  Remove from Pinned List
-                </DropdownMenuItem>
+                {pinnedList && (
+                  <DropdownMenuItem onSelect={handlePin}>
+                    <Trash2 color="#EF4444" className="size-5" />
+                    Remove from Pinned List
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuGroup>
             ) : (
               <ListContentMenu
@@ -101,7 +106,7 @@ export default function ListItemGrid({
           </DropdownActionMenu>
         </div>
       </div>
-      {!pinnedList && (
+      {!pinnedList && !profileList && (
         <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
           <div className="grow basis-[calc(50%-0.375rem)]">
             <CreateButton title="Add Game" className="w-full" />

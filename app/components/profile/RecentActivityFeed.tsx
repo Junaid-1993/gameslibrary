@@ -6,8 +6,8 @@ export default function RecentActivityFeed({ activities }: { activities: Activit
     return (
       <div className="flex items-center justify-center py-6 md:h-full">
         <div className="flex flex-col items-center gap-3">
-          <NotebookPen color="#818793" className="size-8 2xl:size-9" />
-          <p className="text-secondary text-sm 2xl:text-base">No Recent Activity Yet.</p>
+          <NotebookPen color="#818793" className="size-8" />
+          <p className="text-secondary text-sm">No Recent Activity Yet.</p>
         </div>
       </div>
     );

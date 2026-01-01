@@ -1,3 +1,5 @@
+import GameCard from "@/app/components/GameCard";
+import GamesGrid from "@/app/components/GamesGrid";
 import LinkWithArrow from "@/app/components/LinkWithArrow";
 import ListItemGrid from "@/app/components/mylibrary/ListItemGrid";
 import { ListProps } from "@/app/components/mylibrary/ListItemRow";
@@ -8,7 +10,16 @@ import ShareButton from "@/app/components/ShareButton";
 import Lists from "@/app/data/lists.json";
 import { Game } from "@/app/types/Game";
 import { Badge } from "@/components/ui/badge";
-import { CalendarDays, Heart, List, Settings } from "lucide-react";
+import {
+  CalendarDays,
+  Heart,
+  HeartPlus,
+  List,
+  Notebook,
+  PencilLine,
+  Settings,
+  Star,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -49,6 +60,25 @@ const favoriteGames: Game[] = Array.from(
   ).values()
 );
 
+// Later we will fetch the Rated Games from a database:
+const ratedGames: Game[] = Array.from(
+  new Map(
+    Lists.flatMap((list) => list.games.filter((game) => game.myscore)).map((game) => [
+      game.title,
+      game,
+    ])
+  ).values()
+);
+
+// Later we will fetch the Reviewed Games from a database:
+const reviewedGames: Game[] = Lists[0].games.slice(1);
+
+// Later we will fetch the Games that has journal entries from a database:
+const entiresAddedGames: Game[] = Lists[0].games.slice(2);
+
+// Later we will fetch the Wishlists Games from a database:
+const wishlistsGames: Game[] = Lists[0].games.slice(3);
+
 export default function Page() {
   return (
     <div className="grid gap-8 lg:gap-12">
@@ -56,7 +86,7 @@ export default function Page() {
         <div className="grid gap-4 md:grid-cols-[1fr_auto]">
           <div className="justify-self-end md:col-start-2 md:row-start-1">
             <Link href="/profile/edit">
-              <Settings color="#FCA311" size={32} />
+              <Settings color="#FCA311" size={32} className="transition hover:rotate-45" />
             </Link>
           </div>
           <div className="md:col-start-1 md:row-start-1">
@@ -142,8 +172,8 @@ export default function Page() {
             ) : (
               <div className="flex h-[70%] items-center justify-center py-6">
                 <div className="flex flex-col items-center gap-2">
-                  <List color="#818793" className="size-8 2xl:size-9" />
-                  <p className="text-secondary text-sm 2xl:text-base">No Lists Yet.</p>
+                  <List color="#818793" className="size-8" />
+                  <p className="text-secondary text-sm">No Lists Yet.</p>
                 </div>
               </div>
             )}
@@ -191,8 +221,8 @@ export default function Page() {
             ) : (
               <div className="flex items-center justify-center py-6">
                 <div className="flex flex-col items-center gap-2">
-                  <Heart color="#818793" className="size-8 2xl:size-9" />
-                  <p className="text-secondary text-sm 2xl:text-base">No Favorite Titles Yet.</p>
+                  <Heart color="#818793" className="size-8" />
+                  <p className="text-secondary text-sm">No Favorite Titles Yet.</p>
                 </div>
               </div>
             )}
@@ -206,6 +236,91 @@ export default function Page() {
           </div>
         </section>
       </div>
+
+      <ProfileGamesGridList
+        listTitle="Ratings"
+        listShortDescription="Most Recently Rated"
+        titles={ratedGames}
+        noTitlesText="No Rated Titles Yet."
+      >
+        <Star color="#818793" className="size-8" />
+      </ProfileGamesGridList>
+
+      <ProfileGamesGridList
+        listTitle="Reviews"
+        listShortDescription="Most Recently Reviewed"
+        titles={reviewedGames}
+        noTitlesText="No Reviewed Titles Yet."
+      >
+        <PencilLine color="#818793" className="size-8" />
+      </ProfileGamesGridList>
+      <ProfileGamesGridList
+        listTitle="Entries"
+        listShortDescription="Most Recent Entries"
+        titles={entiresAddedGames}
+        noTitlesText="No Journal Entries Added Titles Yet."
+      >
+        <Notebook color="#818793" className="size-8" />
+      </ProfileGamesGridList>
+      <ProfileGamesGridList
+        listTitle="Wishlist"
+        listShortDescription="Most Recent Wishlists Titles"
+        titles={wishlistsGames}
+        noTitlesText="No Wishlists Titles Yet."
+      >
+        <HeartPlus color="#818793" className="size-8" />
+      </ProfileGamesGridList>
     </div>
+  );
+}
+
+function ProfileGamesGridList({
+  listTitle,
+  listShortDescription,
+  titles,
+  noTitlesText,
+  children,
+}: {
+  listTitle: "Ratings" | "Reviews" | "Entries" | "Wishlist";
+  listShortDescription: string;
+  titles: Game[] | [];
+  noTitlesText: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section>
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <h3 className="font-space-grotesk text-accent-400 text-lg font-medium lg:text-xl">
+            Your {listTitle}
+          </h3>
+          <p className="text-secondary mt-1 text-sm lg:mt-1.5">{listShortDescription}</p>
+        </div>
+        <LinkWithArrow
+          href={
+            listTitle === "Wishlist" ? "/mylibrary/wishlist" : `/profile/${listTitle.toLowerCase()}`
+          }
+          title={`View All ${listTitle}`}
+        />
+      </div>
+      <div className="mt-6">
+        {titles.length >= 1 ? (
+          <GamesGrid>
+            {titles.slice(0, 5).map((game, idx) => (
+              <div key={game.id} className={idx === 4 ? "hidden 2xl:block" : ""}>
+                <GameCard game={game} />
+              </div>
+            ))}
+          </GamesGrid>
+        ) : (
+          <div className="flex h-[70%] items-center justify-center py-6">
+            <div className="flex flex-col items-center gap-2">
+              {children}
+              <p className="text-secondary text-sm">{noTitlesText}</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
   );
 }

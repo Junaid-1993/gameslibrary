@@ -38,7 +38,7 @@ export default function GameHeaderDetails({ id }: { id: string }) {
         "border-border-300 relative mt-4 border-b-[1px] bg-[url(/images/witcher-3-wild-hunt.jpg)] bg-cover p-6 lg:h-[450px] lg:py-0 xl:h-[550px] xl:px-8",
         // Before
         "before:absolute before:inset-0 before:bg-linear-to-b before:from-black/50 before:to-black/70",
-        // Position
+        // Background Position
         "bg-position-[center_right_-10rem] bg-no-repeat md:bg-position-[center_center] xl:bg-position-[center_top_-5rem]"
       )}
     >

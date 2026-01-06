@@ -11,6 +11,7 @@ interface AddToListButtonProps {
   initialState?: boolean;
   title?: string;
   disableAnimation?: boolean;
+  onlyIcon?: boolean;
 }
 
 export default function AddToListButton({
@@ -19,6 +20,7 @@ export default function AddToListButton({
   title,
   initialState = false,
   disableAnimation = false, // default false
+  onlyIcon = false, // default false
 }: AddToListButtonProps) {
   const [isAdded, setIsAdded] = useState(initialState);
 
@@ -36,6 +38,7 @@ export default function AddToListButton({
       className={cn(
         "dark:bg-border-500 dark:border-border-300 relative h-auto cursor-pointer overflow-hidden transition-all duration-300 ease-in-out",
         isAdded ? "w-[115px]" : "w-[143px]",
+        onlyIcon && `w-fit ${isAdded ? "sm:w-[115px]" : "sm:w-[143px]"}`,
         className
       )}
     >
@@ -45,13 +48,13 @@ export default function AddToListButton({
           <div className="flex items-center justify-center">
             <ListCross />
           </div>
-          <span className="hidden text-sm font-medium whitespace-nowrap md:inline">
+          <span className="hidden text-sm font-medium whitespace-nowrap sm:inline">
             {title === "Wishlist" ? (
-              <span className="hidden md:inline">Unwishlist</span>
+              <span className="hidden sm:inline">Unwishlist</span>
             ) : title === "Favorites" ? (
-              <span className="hidden md:inline">Unfavorite</span>
+              <span className="hidden sm:inline">Unfavorite</span>
             ) : (
-              <>Remove {<span className="hidden xl:inline">from {title}</span>}</>
+              <>Remove {<span className="hidden md:inline">from {title}</span>}</>
             )}
           </span>
         </div>
@@ -82,7 +85,7 @@ export default function AddToListButton({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
-              className="text-sm font-medium whitespace-nowrap"
+              className={`text-sm font-medium whitespace-nowrap ${onlyIcon && "hidden sm:inline"}`}
             >
               {title ? title : isAdded ? "Added" : "Add to List"}
             </motion.span>

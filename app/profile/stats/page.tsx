@@ -23,6 +23,8 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
+// Later the user data will come from database:
+
 // Later the stats data will come from database:
 const stats = {
   totalGames: 3,
@@ -86,7 +88,11 @@ export default function Page() {
         <div className="grid gap-4 md:grid-cols-[1fr_auto]">
           <div className="justify-self-end md:col-start-2 md:row-start-1">
             <Link href="/profile/edit">
-              <Settings color="#FCA311" size={32} className="transition hover:rotate-45" />
+              <Settings
+                color="#FCA311"
+                size={32}
+                className="transition duration-300 ease-in-out hover:rotate-45"
+              />
             </Link>
           </div>
           <div className="md:col-start-1 md:row-start-1">

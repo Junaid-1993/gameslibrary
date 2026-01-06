@@ -25,7 +25,7 @@ export default function FullWidthGameCard({
   fullListAction,
   shouldRenderWishlistComponent = true,
   upcoming = false,
-}: GameCardProps) {
+}: Omit<GameCardProps, "renderedIn"> & { renderedIn?: GameCardProps["renderedIn"] | "Profile" }) {
   const [selected, setSelected] = useState(false);
   return (
     <article className="bg-surface-500 flex gap-3 rounded-lg p-2 transition-[background-color] duration-300 ease-in-out hover:bg-[#28292A]/80 sm:p-4 sm:pl-3 md:gap-5 xl:gap-4">
@@ -85,7 +85,7 @@ export default function FullWidthGameCard({
               )}
             </div>
             <div className="flex flex-col items-start justify-between gap-1 sm:w-80 sm:flex-row sm:gap-10">
-              <div className="flex items-center justify-between gap-2 xl:gap-1">
+              <div className="flex items-center justify-between gap-2">
                 <span className="text-sm font-medium">My Score</span>
                 <StarRating userScore={game.myscore} />
               </div>
@@ -110,10 +110,11 @@ export default function FullWidthGameCard({
                   className={`dark:border-border-300 w-fit xl:has-[>svg]:px-2.5 ${renderedIn === "Favorites" && "pointer-events-none"}`}
                 />
                 <AddToListButton
-                  title={renderedIn ? renderedIn : undefined}
+                  title={renderedIn && !(renderedIn === "Profile") ? renderedIn : undefined}
                   initialState={game.added}
-                  className="dark:border-border-300 w-fit xl:has-[>svg]:px-2.5"
-                  disableAnimation={renderedIn && true}
+                  className={`dark:border-border-300 xl:has-[>svg]:px-2.5 ${!(renderedIn === "Profile") ? "w-fit" : ""}`}
+                  disableAnimation={renderedIn && !(renderedIn === "Profile") && true}
+                  onlyIcon={renderedIn === "Profile" && true}
                 />
               </div>
             </div>
@@ -129,63 +130,65 @@ export default function FullWidthGameCard({
           </div>
         </div>
 
-        <div className="border-border-400 mt-3 mb-2 flex min-w-[65px] items-center justify-center border-t pt-3 pr-1 pl-5 md:border-t-0 md:border-l">
-          <AnimatePresence mode="wait" initial={false}>
-            {fullListAction === "bulk" ? (
-              <motion.div
-                key="bulk"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.25 }}
-              >
-                <Button
-                  className="dark:bg-border-500 dark:hover:bg-border-500/90 h-9 w-9 cursor-pointer rounded-lg shadow-2xl has-[>svg]:p-1 md:h-auto md:w-auto"
-                  onClick={() => setSelected(!selected)}
+        {!(renderedIn === "Profile") && (
+          <div className="border-border-400 mt-3 mb-2 flex min-w-[65px] items-center justify-center border-t pt-3 pr-1 pl-5 md:border-t-0 md:border-l">
+            <AnimatePresence mode="wait" initial={false}>
+              {fullListAction === "bulk" ? (
+                <motion.div
+                  key="bulk"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.25 }}
                 >
-                  {selected ? (
-                    <SquareCheck color="#fff" className="size-7 md:size-8" />
-                  ) : (
-                    <Square color="#fff" className="size-7 md:size-8" />
-                  )}
-                </Button>
-              </motion.div>
-            ) : fullListAction === "arrange" ? (
-              <motion.div
-                key="arrange"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.25 }}
-              >
-                <Button className="dark:bg-border-500 dark:hover:bg-border-500/90 h-auto w-auto cursor-grab rounded-lg shadow-2xl has-[>svg]:px-0.75 has-[>svg]:py-1.5">
-                  <GripVertical color="#fff" className="size-6.5 md:size-7.5" />
-                </Button>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="menu"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.25 }}
-              >
-                <DropdownActionMenu className="dark:bg-border-500 dark:hover:bg-border-500/90 h-9 w-9 rounded-full shadow-2xl md:h-10 md:w-10">
-                  {renderedIn === "Wishlist" || renderedIn === "Favorites" ? (
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem>
-                        <Plus color="#fff" className="size-5" />
-                        Add to List
-                      </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                  ) : (
-                    <ListGameCardContentMenu />
-                  )}
-                </DropdownActionMenu>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+                  <Button
+                    className="dark:bg-border-500 dark:hover:bg-border-500/90 h-9 w-9 cursor-pointer rounded-lg shadow-2xl has-[>svg]:p-1 md:h-auto md:w-auto"
+                    onClick={() => setSelected(!selected)}
+                  >
+                    {selected ? (
+                      <SquareCheck color="#fff" className="size-7 md:size-8" />
+                    ) : (
+                      <Square color="#fff" className="size-7 md:size-8" />
+                    )}
+                  </Button>
+                </motion.div>
+              ) : fullListAction === "arrange" ? (
+                <motion.div
+                  key="arrange"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  <Button className="dark:bg-border-500 dark:hover:bg-border-500/90 h-auto w-auto cursor-grab rounded-lg shadow-2xl has-[>svg]:px-0.75 has-[>svg]:py-1.5">
+                    <GripVertical color="#fff" className="size-6.5 md:size-7.5" />
+                  </Button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  <DropdownActionMenu className="dark:bg-border-500 dark:hover:bg-border-500/90 h-9 w-9 rounded-full shadow-2xl md:h-10 md:w-10">
+                    {renderedIn === "Wishlist" || renderedIn === "Favorites" ? (
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem>
+                          <Plus color="#fff" className="size-5" />
+                          Add to List
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                    ) : (
+                      <ListGameCardContentMenu />
+                    )}
+                  </DropdownActionMenu>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
       </div>
     </article>
   );

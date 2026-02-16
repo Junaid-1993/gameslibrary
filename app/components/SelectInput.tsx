@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 export interface SelectedInputProps {
   id: string;
-  placeholder: string;
+  placeholder?: string;
   values?: Record<string, string> | string; // current selected values
   options: string[];
   onSelect?: (id: string, value: string) => void;
@@ -63,7 +63,7 @@ export default function SelectInput({
           {reviewForm ? (
             <span className="text-muted-foreground">{placeholder}</span>
           ) : (
-            <SelectValue placeholder={placeholder} />
+            <SelectValue placeholder={placeholder || value} />
           )}
         </SelectTrigger>
         <SelectContent className={cn("bg-[#18181c]", classes?.contentClass)}>

@@ -36,6 +36,9 @@
   --color-success-900: var(--success-900);
   --color-disabled-800: var(--disabled-800);
   --color-danger-300: var(--danger-300);
+  --color-danger-400: var(--danger-400);
+  --color-danger-700: var(--danger-700);
+  --color-danger-800: var(--danger-800);
   --color-warning-400: var(--warning-400);
 
   --font-space-grotesk: var(--font-space-grotesk-sans-serif);
@@ -137,6 +140,9 @@
   --success-900: #0e5327;
   --disabled-800: #3b3f46;
   --danger-300: #f48282;
+  --danger-400: #f26969;
+  --danger-700: #aa3030;
+  --danger-800: #832525;
   --warning-400: #fbd644;
 }
 

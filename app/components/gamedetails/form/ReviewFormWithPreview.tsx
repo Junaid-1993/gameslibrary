@@ -11,7 +11,7 @@ import { X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import dynamic from "next/dynamic";
 import { PropsWithChildren, useEffect, useRef } from "react";
-import { Controller, FieldErrors, useForm } from "react-hook-form";
+import { Controller, FieldErrors, SubmitHandler, useForm } from "react-hook-form";
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import z from "zod";
 import SelectInput from "../../SelectInput";
@@ -79,7 +79,7 @@ export default function ReviewFormWithPreview({
     watch,
     resetField,
     trigger,
-    formState: { errors, isSubmitted },
+    formState: { errors, isSubmitted, isSubmitting },
   } = useForm<ExperienceForm>({
     resolver: zodResolver(experienceSchema),
     shouldFocusError: false, // disables default focus behavior
@@ -159,6 +159,31 @@ export default function ReviewFormWithPreview({
     errors.badPoint,
   ].some(Boolean);
 
+  const onSubmit: SubmitHandler<ExperienceForm> = async (data) => {
+    try {
+      const response = await fetch("/api/experience", {
+        // Adjust path if dynamic
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        // Handle Zod errors returned from server
+        console.error("Server Validation Errors:", result.errors);
+        return;
+      }
+
+      alert("Experience submitted successfully!");
+      // Optional: reset() or redirect
+    } catch (error) {
+      console.error("Connection error:", error);
+    } finally {
+    }
+  };
+
   // If errors focus on the first required field dynamically
   const onError = (errors: FieldErrors<ExperienceForm>) => {
     setTimeout(() => {
@@ -234,10 +259,7 @@ export default function ReviewFormWithPreview({
             )}
           </AnimatePresence>
 
-          <form
-            className="mt-4 flex flex-col gap-6"
-            onSubmit={handleSubmit((data) => console.log(data), onError)}
-          >
+          <form className="mt-4 flex flex-col gap-6" onSubmit={handleSubmit(onSubmit, onError)}>
             <h4 className="font-space-grotesk text-lg font-medium">Short Review:</h4>
             <div>
               <div className="flex flex-col gap-3 md:w-[470px] lg:w-1/2 2xl:w-2/5">
@@ -631,7 +653,7 @@ export default function ReviewFormWithPreview({
               >
                 Save as Draft
               </Button>
-              <Button variant="glDefault" type="submit">
+              <Button variant="glDefault" type="submit" disabled={isSubmitting}>
                 Share Review
               </Button>
             </motion.div>

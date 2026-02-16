@@ -7,34 +7,31 @@ import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 
 async function sanitizeMarkdown(markdown: string) {
-    const file = await unified()
-        .use(remarkParse)
-        .use(remarkRehype)
-        .use(rehypeSanitize, defaultSchema)
-        .use(rehypeStringify)
-        .process(markdown);
-
-    return String(file);
+  const file = await unified()
+    .use(remarkParse)
+    .use(remarkRehype)
+    .use(rehypeSanitize, defaultSchema)
+    .use(rehypeStringify)
+    .process(markdown);
+  return String(file);
 }
 
-
 export async function POST(request: NextRequest) {
+  try {
     const body = await request.json();
     const validation = experienceSchema.safeParse(body);
 
-    // Step 1: validate form fields
+    // Step 1: Validate form fields
     if (!validation.success) {
-        return NextResponse.json(
-            { errors: validation.error.issues },
-            { status: 400 }
-        );
+      return NextResponse.json({ errors: validation.error.issues }, { status: 400 });
     }
 
-    const data = validation.data;
+    // Work with a copy of the data
+    const data = { ...validation.data };
 
-    // Step 2: sanitize markdown fields
+    // Step 2: Sanitize markdown fields
     if (data.detailedReview) {
-        data.detailedReview = await sanitizeMarkdown(data.detailedReview);
+      data.detailedReview = await sanitizeMarkdown(data.detailedReview);
     }
 
     // Step 3: moderation placeholder
@@ -44,7 +41,13 @@ export async function POST(request: NextRequest) {
     //   return NextResponse.json({ error: "Content not allowed" }, { status: 403 });
     // }
 
+    // Step 4: Database Logic
+    // const savedEntry = await prisma.experience.create({ data });
+    console.log("Processed Data:", data);
 
-
-    return NextResponse.json({ data: validation.data }, { status: 200 });
+    return NextResponse.json({ message: "Success", data: data }, { status: 200 });
+  } catch (error) {
+    console.error("POST Error:", error);
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+  }
 }

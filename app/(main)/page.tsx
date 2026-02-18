@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
-import AllFeatures from "./components/homepage/AllFeatures";
-import HeroCoversResponsiveWrapper from "./components/homepage/HeroCoversResponsiveWrapper";
-import AllFeaturesExplain from "./components/homepage/AllFeaturesExplain";
+import AllFeatures from "../components/homepage/AllFeatures";
+import HeroCoversResponsiveWrapper from "../components/homepage/HeroCoversResponsiveWrapper";
+import AllFeaturesExplain from "../components/homepage/AllFeaturesExplain";
 import Link from "next/link";
-import MarqueeCovers from "./components/homepage/MarqueeCovers";
+import MarqueeCovers from "../components/homepage/MarqueeCovers";
 
 export default function Home() {
   return (

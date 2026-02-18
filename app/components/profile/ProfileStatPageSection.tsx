@@ -10,7 +10,7 @@ import {
   containerVariants,
   gridItemVariants,
   listItemVariants,
-} from "@/app/mylibrary/lists/ListsSection";
+} from "@/app/(main)/mylibrary/lists/ListsSection";
 import { Game } from "@/app/types/Game";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";

@@ -1,11 +1,11 @@
 import { AnimatePresence } from "motion/react";
 import * as motion from "motion/react-client";
-import DefaultBrowseGames from "../components/browsegames/DefaultBrowseGames";
-import NotFoundGames from "../components/browsegames/NotFoundGames";
-import GameCard from "../components/GameCard";
-import GamesGrid from "../components/GamesGrid";
-import { fetchGames } from "../services/gameService";
-import { Game } from "../types/Game";
+import DefaultBrowseGames from "../../components/browsegames/DefaultBrowseGames";
+import NotFoundGames from "../../components/browsegames/NotFoundGames";
+import GameCard from "../../components/GameCard";
+import GamesGrid from "../../components/GamesGrid";
+import { fetchGames } from "../../services/gameService";
+import { Game } from "../../types/Game";
 
 export default async function Page({
   searchParams,

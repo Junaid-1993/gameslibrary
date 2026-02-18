@@ -1,4 +1,4 @@
-import BrowseGamesFilters from "../components/browsegames/BrowseGamesFilters";
+import BrowseGamesFilters from "../../components/browsegames/BrowseGamesFilters";
 
 export default function BrowseGamesLayout({ children }: { children: React.ReactNode }) {
   return (

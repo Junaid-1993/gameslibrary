@@ -1,8 +1,8 @@
 import { ListProps } from "@/app/components/mylibrary/ListItemRow";
 import Lists from "@/app/data/lists.json";
-import ListItemGrid from "../components/mylibrary/ListItemGrid";
-import MyLibraryNavLinks from "../components/mylibrary/MyLibraryNavLinks";
-import { Game } from "../types/Game";
+import ListItemGrid from "@/app/components/mylibrary/ListItemGrid";
+import MyLibraryNavLinks from "@/app/components/mylibrary/MyLibraryNavLinks";
+import { Game } from "@/app/types/Game";
 
 // Later we will fetch the pinned lists, wishlistGames and favoriteGames from the database:
 const allLists: ListProps[] = Lists;

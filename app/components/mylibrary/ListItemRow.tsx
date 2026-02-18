@@ -1,8 +1,8 @@
 "use client";
 
 import { useListActions } from "@/app/hooks/useListActions";
-import { listActionUI } from "@/app/mylibrary/_actions/ListActionsUI";
-import { getListActionLogic } from "@/app/mylibrary/_actions/listActionLogic";
+import { listActionUI } from "@actions/ListActionsUI";
+import { getListActionLogic } from "@actions/listActionLogic";
 import { Game } from "@/app/types/Game";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";

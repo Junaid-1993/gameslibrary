@@ -3,13 +3,13 @@
 import { ListProps } from "@/app/components/mylibrary/ListItemRow";
 import Lists from "@/app/data/lists.json";
 import { useListActions } from "@/app/hooks/useListActions";
-import { listActionUI } from "@/app/mylibrary/_actions/ListActionsUI";
-import { getListActionLogic } from "@/app/mylibrary/_actions/listActionLogic";
+import { listActionUI } from "@actions/ListActionsUI";
+import { getListActionLogic } from "@actions/listActionLogic";
 import {
   containerVariants,
   gridItemVariants,
   listItemVariants,
-} from "@/app/mylibrary/lists/ListsSection";
+} from "@/app/(main)/mylibrary/lists/ListsSection";
 import { cn } from "@/lib/utils";
 import {
   ArrowRightLeft,

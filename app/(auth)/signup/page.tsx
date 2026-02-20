@@ -74,7 +74,7 @@ export default function page() {
 
   return (
     <div className="h-screen max-h-screen w-full overflow-hidden lg:flex">
-      <div className="h-full overflow-y-auto px-8 py-4 lg:w-1/3 xl:py-8">
+      <div className="flex h-full flex-col overflow-y-auto px-8 py-4 lg:w-1/3 xl:py-8">
         <div>
           <LinkWithArrow
             href="/"
@@ -83,7 +83,7 @@ export default function page() {
             className="text-primary-300 hover:text-primary-500 border-none !pl-0 sm:!pl-3"
           />
         </div>
-        <div className="mx-auto my-6 grid max-w-96 gap-4 text-center lg:my-4 lg:gap-2">
+        <div className="mx-auto my-6 grid w-full max-w-96 gap-4 text-center lg:my-4 lg:gap-2">
           <div className="flex justify-center">
             <Brand isFooter />
           </div>
@@ -177,7 +177,7 @@ export default function page() {
             </form>
           </div>
         </div>
-        <div className="mt-8 flex items-center justify-center gap-6 xl:mt-10">
+        <div className="mt-8 flex items-center justify-center gap-6 xl:mt-auto">
           <Link href="#" className="text-primary-400 text-sm">
             Terms of Service
           </Link>

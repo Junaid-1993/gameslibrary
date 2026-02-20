@@ -5,11 +5,13 @@ import ReviewTabSwitcher from "@/app/components/gamedetails/ReviewTabSwitcher";
 import StarUnFilledSVG from "@/app/components/StarUnFilledSVG";
 import { Button } from "@/components/ui/button";
 import { use, useState } from "react";
+import { useModal } from "@/app/stores/useModalStore";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [activeTab, setActiveTab] = useState<"editor" | "preview">("editor");
 
   const { id } = use(params);
+  const { onOpen } = useModal();
 
   return (
     <div className="flex flex-col gap-8 lg:gap-12">
@@ -22,6 +24,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <Button
             variant="outline"
             className="group text-accent-400 dark:border-accent-400 hover:text-background dark:hover:bg-accent-400 h-11 cursor-pointer transition duration-300 ease-in-out md:h-10"
+            onClick={() => onOpen("rateGame", { gameId: 3498, gameTitle: "GTA V" })}
           >
             <StarUnFilledSVG className="size-5 transition duration-300 ease-in-out group-hover:text-black" />
             Rate This Game

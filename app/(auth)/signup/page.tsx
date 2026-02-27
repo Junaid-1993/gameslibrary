@@ -11,8 +11,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema, SignUpValues } from "@/app/Schema/auth";
 import { AnimatedErrorMessage } from "@/app/components/gamedetails/form/ReviewFormWithPreview";
+import { useRouter } from "next/navigation";
 
 export default function page() {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -30,7 +33,7 @@ export default function page() {
 
   const onSubmit = async (data: SignUpValues) => {
     try {
-      const response = await fetch("/api/auth/signup", {
+      const response = await fetch("/api/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -65,8 +68,9 @@ export default function page() {
         return;
       }
 
-      alert("Account created! Redirecting...");
-      // router.push("/signin");
+      const message = response.json();
+      alert(message);
+      router.push("/profile/stats");
     } catch (err) {
       setError("root", { message: "Something went wrong. Try again." });
     }

@@ -2,10 +2,10 @@ import { z } from "zod";
 
 export const signUpSchema = z
   .object({
-    username: z.string().min(3, "Username must be at least 3 characters"),
+    username: z.string().trim().min(3, "Username must be at least 3 characters"),
     email: z.string().email("Please enter a valid email address"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
-    confirmPassword: z.string(),
+    password: z.string().trim().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string().trim(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
@@ -17,6 +17,7 @@ export type SignUpValues = z.infer<typeof signUpSchema>;
 export const signInSchema = z.object({
   identifier: z
     .string()
+    .trim()
     .min(1, "Please enter your email or username")
     .refine(
       (val) => {
@@ -33,7 +34,7 @@ export const signInSchema = z.object({
         message: "Enter a valid email or a username (at least 3 characters)",
       }
     ),
-  password: z.string().min(1, "Password is required"),
+  password: z.string().trim().min(1, "Password is required"),
   remember: z.boolean().optional(),
 });
 

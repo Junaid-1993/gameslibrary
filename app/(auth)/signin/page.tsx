@@ -31,7 +31,7 @@ export default function page() {
 
   const onSubmit = async (data: SignInValues) => {
     try {
-      const response = await fetch("/api/auth/signin", {
+      const response = await fetch("/api/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

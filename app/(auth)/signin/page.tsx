@@ -1,20 +1,27 @@
 "use client";
 
+import { signInSchema, SignInValues } from "@/app/Schema/auth";
 import Brand from "@/app/components/Brand";
 import LinkWithArrow from "@/app/components/LinkWithArrow";
+import { AnimatedErrorMessage } from "@/app/components/gamedetails/form/ReviewFormWithPreview";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { signIn } from "@/lib/auth-client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signInSchema, SignInValues } from "@/app/Schema/auth";
-import { AnimatedErrorMessage } from "@/app/components/gamedetails/form/ReviewFormWithPreview";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Checkbox } from "@/components/ui/checkbox";
 
 export default function page() {
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -30,50 +37,47 @@ export default function page() {
   });
 
   const onSubmit = async (data: SignInValues) => {
-    try {
-      const response = await fetch("/api/signin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+    // Send identifier in `email`; server hook resolves username to email when needed.
+    const { error } = await signIn.email({
+      email: data.identifier.trim(),
+      password: data.password,
+      rememberMe: data.remember,
+    });
 
-      const result = await response.json();
+    if (error) {
+      const rawMessage = error.message || "Sign in failed";
+      const message = rawMessage.toLowerCase();
 
-      if (!response.ok) {
-        // 1. Handle 401 Unauthorized (Invalid Email/Username or Password)
-        if (response.status === 401) {
-          // We set the error on the root to show a general message at the top/bottom
-          // OR you can set it on 'identifier' to highlight the input
-          setError("root", {
-            message: result.message || "Invalid email/username or password.",
-          });
-          return;
-        }
-
-        // 2. Handle 400 Bad Request (Server-side Zod validation fails)
-        if (response.status === 400 && result.errors) {
-          Object.entries(result.errors).forEach(([field, messages]) => {
-            setError(field as keyof SignInValues, {
-              type: "server",
-              // We take the first message from the array
-              message: Array.isArray(messages) ? messages[0] : "Invalid input",
-            });
-          });
-          return;
-        }
-
-        // 3. Fallback for 500 or other errors
-        setError("root", { message: result.message || "Something went wrong on our end." });
+      if (
+        message.includes("invalid") ||
+        message.includes("password") ||
+        message.includes("credential") ||
+        message.includes("user")
+      ) {
+        setError("root", {
+          type: "server",
+          message: "Invalid email/username or password.",
+        });
         return;
       }
 
-      // Success!
-      alert("Login successful! Redirecting...");
-      // router.push("/dashboard");
-    } catch (err) {
-      // Handle Network/Fetch errors
-      setError("root", { message: "Network error. Please check your connection." });
+      if (message.includes("validation")) {
+        setError("identifier", {
+          type: "server",
+          message: "Enter a valid email or username.",
+        });
+        return;
+      }
+
+      setError("root", {
+        type: "server",
+        message: rawMessage,
+      });
+      return;
     }
+
+    // If we reach here, the session is created and cookies are set!
+    router.push("/profile/stats");
   };
 
   return (
@@ -126,13 +130,24 @@ export default function page() {
               </div>
               <div className="grid items-center gap-2">
                 <Label htmlFor="password">Password</Label>
-                <Input
-                  type="password"
-                  id="password"
-                  {...register("password")}
-                  className="border-border-400 focus-visible:ring-ring/35 h-10"
-                  placeholder="Enter your password"
-                />
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    {...register("password")}
+                    className="border-border-400 focus-visible:ring-ring/35 h-10 pr-10"
+                    placeholder="Enter your password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="text-secondary hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-pressed={showPassword}
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
 
                 <AnimatedErrorMessage className="!mt-0.5 text-left">
                   {errors.password?.message}

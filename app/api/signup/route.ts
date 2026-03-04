@@ -22,33 +22,33 @@ export async function POST(req: Request) {
 
     const { username, email, password } = result.data;
 
-    // const deleteUser = await prisma.user.delete({
+    const deleteUser = await prisma.user.delete({
+      where: {
+        email: "alexmercer@example.com",
+      },
+    });
+
+    // Check if user already exist in the database:
+    // const user = await prisma.user.findFirst({
     //   where: {
-    //     email: "alexmercer@example.com",
+    //     email: email,
     //   },
     // });
 
-    // Check if user already exist in the database:
-    const user = await prisma.user.findFirst({
-      where: {
-        email: email,
-      },
-    });
+    // if (user) {
+    //   return NextResponse.json(
+    //     { message: "This email already taken.", field: "email" },
+    //     { status: 409 }
+    //   );
+    // }
 
-    if (user) {
-      return NextResponse.json(
-        { message: "This email already taken.", field: "email" },
-        { status: 409 }
-      );
-    }
-
-    const data = await auth.api.signUpEmail({
-      body: {
-        name: username,
-        email: email,
-        password: password,
-      },
-    });
+    // const data = await auth.api.signUpEmail({
+    //   body: {
+    //     name: username,
+    //     email: email,
+    //     password: password,
+    //   },
+    // });
 
     // if (username === existedUser.username) {
     //   return NextResponse.json(

@@ -1,20 +1,25 @@
 "use client";
 
+import { signUpSchema, SignUpValues } from "@/app/Schema/auth";
 import Brand from "@/app/components/Brand";
 import LinkWithArrow from "@/app/components/LinkWithArrow";
+import { AnimatedErrorMessage } from "@/app/components/gamedetails/form/ReviewFormWithPreview";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { signUp } from "@/lib/auth-client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpSchema, SignUpValues } from "@/app/Schema/auth";
-import { AnimatedErrorMessage } from "@/app/components/gamedetails/form/ReviewFormWithPreview";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function page() {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
@@ -32,48 +37,42 @@ export default function page() {
   });
 
   const onSubmit = async (data: SignUpValues) => {
-    try {
-      const response = await fetch("/api/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+    // Use the authClient instead of fetch()
+    const { error } = await signUp.email({
+      name: data.username, // mapping your 'username' to 'name'
+      email: data.email,
+      password: data.password,
+    });
 
-      const result = await response.json();
+    if (error) {
+      const rawMessage = error.message || "Registration failed";
+      const message = rawMessage.toLowerCase();
 
-      if (!response.ok) {
-        // 1. Specifically handle 409 Conflict for username and email
-        if (response.status === 409) {
-          const field = result.field as keyof SignUpValues; // "username" or "email"
-          setError(field, {
-            type: "server",
-            message: result.message || `This ${field} is already taken`,
-          });
-          return;
-        }
-
-        // 2. Handle 400 Bad Request (Validation errors)
-        if (response.status === 400 && result.errors) {
-          Object.entries(result.errors).forEach(([field, messages]) => {
-            setError(field as keyof SignUpValues, {
-              type: "server",
-              message: (messages as string[])[0],
-            });
-          });
-          return;
-        }
-
-        // 3. Fallback for other errors (500, etc.)
-        setError("root", { message: result.message || "Registration failed" });
+      if (message.includes("username")) {
+        setError("username", { type: "server", message: rawMessage });
         return;
       }
 
-      const message = response.json();
-      alert(message);
-      router.push("/profile/stats");
-    } catch (err) {
-      setError("root", { message: "Something went wrong. Try again." });
+      if (message.includes("email")) {
+        setError("email", { type: "server", message: rawMessage });
+        return;
+      }
+
+      if (message.includes("validation")) {
+        setError("root", {
+          type: "server",
+          message: "Please check your input and try again.",
+        });
+        return;
+      }
+
+      setError("root", { type: "server", message: rawMessage });
+      return;
     }
+
+    // If we reach here, the session is created and cookies are set!
+    router.push("/profile/stats");
+    router.refresh();
   };
 
   return (
@@ -102,6 +101,12 @@ export default function page() {
               onSubmit={handleSubmit(onSubmit)}
               className="mt-4 grid gap-6 lg:gap-4 xl:mt-6 xl:gap-5"
             >
+              {errors.root && (
+                <p className="text-danger-300 text-center text-sm font-medium">
+                  {errors.root.message}
+                </p>
+              )}
+
               <div className="grid items-center gap-2">
                 <Label htmlFor="username">Username</Label>
                 <Input
@@ -131,13 +136,24 @@ export default function page() {
               </div>
               <div className="grid items-center gap-2">
                 <Label htmlFor="password">Password</Label>
-                <Input
-                  type="password"
-                  id="password"
-                  {...register("password")}
-                  className="border-border-400 focus-visible:ring-ring/35 h-10"
-                  placeholder="Enter your password"
-                />
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    {...register("password")}
+                    className="border-border-400 focus-visible:ring-ring/35 h-10 pr-10"
+                    placeholder="Enter your password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="text-secondary hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-pressed={showPassword}
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
 
                 <AnimatedErrorMessage className="!mt-0.5 text-left">
                   {errors.password?.message}
@@ -145,13 +161,24 @@ export default function page() {
               </div>
               <div className="grid items-center gap-2">
                 <Label htmlFor="confirm-password">Confirm Password</Label>
-                <Input
-                  type="password"
-                  id="confirm-password"
-                  {...register("confirmPassword")}
-                  className="border-border-400 focus-visible:ring-ring/35 h-10"
-                  placeholder="Enter your password again"
-                />
+                <div className="relative">
+                  <Input
+                    type={showConfirmPassword ? "text" : "password"}
+                    id="confirm-password"
+                    {...register("confirmPassword")}
+                    className="border-border-400 focus-visible:ring-ring/35 h-10 pr-10"
+                    placeholder="Enter your password again"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    className="text-secondary hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2"
+                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                    aria-pressed={showConfirmPassword}
+                  >
+                    {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
 
                 <AnimatedErrorMessage className="!mt-0.5 text-left">
                   {errors.confirmPassword?.message}

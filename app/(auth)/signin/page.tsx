@@ -172,7 +172,7 @@ export default function page() {
                     </Field>
                   </FieldGroup>
                 </div>
-                <Link href="#" className="text-primary-400 text-sm">
+                <Link href="/forget-password" className="text-primary-400 text-sm">
                   Forget Password?
                 </Link>
               </div>

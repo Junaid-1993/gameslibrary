@@ -1,17 +1,19 @@
 "use client";
 
-import Tags from "@/app/components/gamedetails/form/Tags";
-import TextareaWithCounter from "@/app/components/gamedetails/form/TextareaWithCounter";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import Image from "next/image";
-import { Controller, FieldErrors, SubmitHandler, useForm } from "react-hook-form";
 import { profileSchema } from "@/app/Schema/ProfileSchema";
 import SelectInput from "@/app/components/SelectInput";
 import { AnimatedErrorMessage } from "@/app/components/gamedetails/form/ReviewFormWithPreview";
+import Tags from "@/app/components/gamedetails/form/Tags";
+import TextareaWithCounter from "@/app/components/gamedetails/form/TextareaWithCounter";
+import EmailVerificationBanner from "@/app/components/profile/EmailVerificationBanner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useSession } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Trash2 } from "lucide-react";
+import Image from "next/image";
+import { Controller, FieldErrors, SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 
 // Later the user data will come from database:
@@ -20,6 +22,10 @@ import z from "zod";
 type ProfileEditForm = z.input<typeof profileSchema>;
 
 export default function page() {
+  const { data: session, isPending } = useSession();
+  // Only show if we've finished loading AND there's a user AND they aren't verified
+  const showBanner = !isPending && session?.user && !session.user.emailVerified;
+
   const {
     register,
     handleSubmit,
@@ -36,6 +42,9 @@ export default function page() {
       tagline: "",
       tags: [],
       visibility: "Public",
+      currentPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
     },
   });
 
@@ -91,6 +100,7 @@ export default function page() {
             Edit Profile
           </h2>
         </div>
+        {showBanner && <EmailVerificationBanner />}
         <div className="mt-2 grid gap-6 md:mt-4 md:flex md:items-start md:gap-10 xl:gap-14">
           <div className="flex flex-col justify-center gap-4">
             <Image
@@ -121,7 +131,7 @@ export default function page() {
             </div>
             <div className="w-full max-w-sm">
               <div className="grid items-center gap-2">
-                <Label htmlFor="lastName">Last tName</Label>
+                <Label htmlFor="lastName">Last Name</Label>
                 <Input
                   type="text"
                   id="lastName"
@@ -198,6 +208,55 @@ export default function page() {
                 />
               )}
             />
+          </div>
+        </div>
+        <div className="mx-auto w-full max-w-sm md:max-w-none">
+          <div className="grid gap-6">
+            <h3 className="font-space-grotesk max-w-sm text-lg font-medium">Change Password</h3>
+            <div className="grid justify-items-center gap-6 md:grid-cols-2 md:items-start md:justify-items-start md:gap-4 md:gap-y-6">
+              <div className="w-full max-w-sm">
+                <div className="grid items-center gap-2">
+                  <Label htmlFor="currentPassword">Current Password</Label>
+                  <Input
+                    type="password"
+                    id="currentPassword"
+                    {...register("currentPassword")}
+                    className="border-border-400 focus-visible:ring-ring/35 h-12 text-sm lg:text-base"
+                    placeholder="Current Password"
+                    autoComplete="current-password"
+                  />
+                </div>
+                <AnimatedErrorMessage>{errors.currentPassword?.message}</AnimatedErrorMessage>
+              </div>
+              <div className="w-full max-w-sm">
+                <div className="grid items-center gap-2">
+                  <Label htmlFor="newPassword">New Password</Label>
+                  <Input
+                    type="password"
+                    id="newPassword"
+                    {...register("newPassword")}
+                    className="border-border-400 focus-visible:ring-ring/35 h-12 text-sm lg:text-base"
+                    placeholder="New Password"
+                    autoComplete="new-password"
+                  />
+                </div>
+                <AnimatedErrorMessage>{errors.newPassword?.message}</AnimatedErrorMessage>
+              </div>
+              <div className="w-full max-w-sm md:col-span-2">
+                <div className="grid items-center gap-2">
+                  <Label htmlFor="confirmNewPassword">Confirm New Password</Label>
+                  <Input
+                    type="password"
+                    id="confirmNewPassword"
+                    {...register("confirmNewPassword")}
+                    className="border-border-400 focus-visible:ring-ring/35 h-12 text-sm lg:text-base"
+                    placeholder="Confirm New Password"
+                    autoComplete="new-password"
+                  />
+                </div>
+                <AnimatedErrorMessage>{errors.confirmNewPassword?.message}</AnimatedErrorMessage>
+              </div>
+            </div>
           </div>
         </div>
         <div className="justify-items-center md:justify-items-start">
